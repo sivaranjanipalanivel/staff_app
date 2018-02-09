@@ -20,7 +20,7 @@ export class LoginPage {
   };
   submitted = false;
   // deviceid:any;
-  constructor(public platform: Platform,public dbserviceProvider: DBserviceProvider,public loadingCtrl: LoadingController,public alertCtrl: AlertController,public menu:MenuController,public navCtrl: NavController, public userData: UserData) {
+  constructor(public platform: Platform,public dbserviceProvider: DBserviceProvider,public loadingCtrl: LoadingController,public alertCtrl: AlertController,public menu:MenuController,public navCtrl: NavController, public userData: UserData, public storage: Storage) {
   // this.deviceid =localStorage.staffdeviceid;
   //  this.dbserviceProvider.getdeviceId(localStorage.staffdeviceid)
   //                    .then(data => {
@@ -84,13 +84,19 @@ presentLoadingDefault() {
               // this.storage.set('logged_user', data.message);
               this.dbserviceProvider.getCurrentUserName(data.message).subscribe(
                 data => {
+                  
                   console.log(data);
-                  //emailid:name;
-                   localStorage.staffId=data.msg[0].name;
-                      localStorage.staffname=data.msg[0].employee_name;
-                      localStorage.staffemail=data.msg[0].user_id;
-                      localStorage.staffstatus=data.msg[0].status;
-                        localStorage.staffbranch=data.msg[0].branch;
+                  debugger;
+                   console.log(data.data[0].user_id);
+                   console.log(this.login.username);
+                  console.log(this.login.password);
+                //this.events.publish("userloggedin")
+                  this.storage.set('logged_user_name', data.data[0].user_id);
+                   localStorage.staffId=data.data[0].name;
+                      localStorage.staffname=data.data[0].employee_name;
+                      localStorage.staffemail=data.data[0].user_id;
+                      localStorage.staffstatus=data.data[0].status;
+                        localStorage.staffbranch=data.data[0].branch;
                 
                  localStorage.staffimagepath="assets/img/person.jpg";
                 
@@ -98,24 +104,26 @@ presentLoadingDefault() {
                   localStorage.currpassword=this.login.password;
                   // console.log(localStorage.currusername)
                   // console.log(localStorage.currpassword)
-                  this.dbserviceProvider.getCurrentinstructorDetail(data.data[0].user_id).subscribe(
-                    data1 => {
-                      console.log(data1);
-     
-                       localStorage.staffbatch=data1.msg[0].parent;
-                       localStorage.empname=data1.msg[0].instructor;
-        this.dbserviceProvider.getCurrentbatchDetail(data1.data[0].parent).subscribe(
-                    data => {
-                      console.log(data);
-     
-                       localStorage.batchstart=data.msg[0].expected_start_date;
-                       localStorage.batchend=data.msg[0].expected_end_date;
-                       localStorage.term=data.msg[0].academic_term;
-                       localStorage.year=data.msg[0].academic_year;
-                       localStorage.program=data.msg[0].program;
-                       localStorage.section=data.msg[0].section;
-                        localStorage.status=data.msg[0].status;
-                         localStorage.course=data.msg[0].course;
+                
+                  // this.dbserviceProvider.getCurrentinstructorDetail(data.data[0].user_id).subscribe(
+                  //   data1 => {
+                  //     console.log(data1);
+                  // this.storage.set('logged_user_details', data1.data[0].instructor);
+                       //localStorage.staffbatch=data1.data[0].parent;
+                       // localStorage.empname=data1.data[0].instructor;
+                  // this.dbserviceProvider.getCurrentbatchDetail(data1.data[0].parent).subscribe(
+                  //   data2 => {
+                  //     console.log(data2);
+                  // this.storage.set('logged_instructor_details', data2.data);
+                 
+                  //      localStorage.batchstart=data2.data[0].expected_start_date;
+                  //      localStorage.batchend=data2.data[0].expected_end_date;
+                  //      localStorage.term=data2.data[0].academic_term;
+                  //      localStorage.year=data2.data[0].academic_year;
+                  //      localStorage.program=data2.data[0].program;
+                  //      localStorage.section=data2.data[0].section;
+                  //      localStorage.status=data2.data[0].status;
+                  //      localStorage.course=data2.data[0].course;
                       let loading = this.loadingCtrl.create({
                   spinner: 'bubbles',
                   content: 'Loading Please Wait...'
@@ -124,20 +132,20 @@ presentLoadingDefault() {
                   
                   this.navCtrl.setRoot(DashboardPage);
                      
-                    },
-                    err => {
-                      console.error(err);
-                      loader.dismiss();
-                      }
-                  )
+                  //   },
+                  //   err => {
+                  //     console.error(err);
+                  //     loader.dismiss();
+                  //     }
+                  // )
              
-                  loader.dismiss();    
-                    },
-                    err => {
-                      console.error(err);
-                      loader.dismiss();
-                      }
-                  )
+                  // loader.dismiss();    
+                  //   },
+                  //   err => {
+                  //     console.error(err);
+                  //     loader.dismiss();
+                  //     }
+                  // )
              
                   loader.dismiss();
                 },

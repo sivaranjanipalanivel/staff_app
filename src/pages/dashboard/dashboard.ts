@@ -27,17 +27,18 @@ export class DashboardPage {
     this.name = localStorage.staffname;
     this.IStoday=true;
     this.presentLoadingDefault();
-    this.dbserviceProvider.getcourseschedule(localStorage.instructor)
-      .then(data => {
-        this.today_schedule = data;
-        console.log(this.today_schedule)
-        if(this.today_schedule.length == 0)
-        {
-          this.IStoday=false;
-        }
-      }, error => {
-        console.log(JSON.stringify(error.json()));
-      });
+   
+    this.dbserviceProvider.getcourseschedule()
+      data => {
+      //   this.today_schedule = data;
+        console.log(data)
+      //   if(this.today_schedule.length == 0)
+      //   {
+      //     this.IStoday=false;
+      //   }
+      // }, error => {
+      //   console.log(JSON.stringify(error.json()));
+     }
   
   }
 

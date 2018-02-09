@@ -25,8 +25,10 @@ export class BatcheslistPage {
      content: 'Loading Please Wait...'
   });
     loading.present();
-    this.dbserviceProvider.getCurrentbatchDetail(localStorage.staffId)
+    console.log(name);
+    this.dbserviceProvider.getCurrentbatchDetail(name)
           .then(data => {
+            console.log(data);
             this.Batcheslist=data;
             if(this.Batcheslist.length ==0)
             {

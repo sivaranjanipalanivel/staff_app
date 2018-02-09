@@ -89,30 +89,24 @@ options;
     let endpoint = 'Employee?filters=[["user_id","=","'+name+'"]]&fields=["name","employee_name","user_id","image","status","branch","unsubscribed"]';
     return this.get(this.baseResource+endpoint);
   }
-  getCurrentUserDetail(name): any {
+  // getCurrentUserDetail(name): any {
    
-    let endpoint = 'Employee/'+name;
-    return this.get(this.baseResource+endpoint);
-  }
+  //   let endpoint = 'Employee/'+name;
+  //   return this.get(this.baseResource+endpoint);
+  // }
   getCurrentinstructorDetail(name): any {
    
-    let endpoint = 'Student Group Batch?filters=[["owner","=","'+name+'"]]&fields["parent","instructor"]';
+    let endpoint = 'Student Group Instructor?filters=[["owner","=","'+name+'"]]&fields=["parent","instructor"]';
     return this.get(this.baseResource+endpoint);
   }
   getCurrentbatchDetail(name): any {
    
-    let endpoint = 'Project?filters=[["name","=","'+name+'"]]&fields=["academic_year","academic_term","program","section","expected_start_date","expected_end_date","status","course","branch"]';
+        let endpoint = 'Student Group Instructor?filters=[["instructor","=","'+name+'"]]&fields=["parent","instructor_name"]';
     return this.get(this.baseResource+endpoint);
   }
-  getcourseschedule(name): any {
-    // return new Promise(resolve => {
-    //   this.http.get( 'tblstaffschedules?filter[include]=Batch&filter[where][finished]='+0+'&filter[where][staff_id]=' + id+'&filter[where][dateadded]='+date+'&filter[limit]='+4)
-    //     .map(res => res.json())
-    //     .subscribe(data => {
-    //       resolve(data);
-    //     });
-    // });
-    let endpoint = 'Course Schedule?filters=[["instructor","=","'+name+'"]]&fields=["project","instructor","schedule_name","room","from_time","to_time"]';
+  getcourseschedule(): any {
+   
+    let endpoint = 'Course Schedule';
     return this.get(this.baseResource+endpoint);
   }
 
