@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{batchnme}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item>
+      <p style="    margin-bottom: 12px; text-align: center;">
+        <ion-icon name="calendar"></ion-icon> Attendance Date </p>
+      <input [(ngModel)]="todaydate" (ngModelChange)="changedate($event);" max={{today}} style="width: 100%;text-align: center;" type="date" name="todaydate" />
+    </ion-item>
+  </ion-list>
+  <div *ngIf="studentvisible">
+    <div *ngIf="Studentlist">
+      <ion-item  *ngFor="let track of Studentlist;let index=index;" [attr.track]="track.tracks | lowercase | lettrcricle">
+        <span  (click)="present(track,index)" item-start class="dot"></span>
+        <ion-label (click)="present(track,index)">{{track.company}} </ion-label>
+        <ion-toggle [(ngModel)]="track.isChecked" (ngModelChange)="present(track,index)" color="secondary"></ion-toggle>
+      </ion-item>
+    </div>
+  </div>
+  <!-- (ngModelChange)="present(track,index)" (click)="present(track,index)"-->
+  <div *ngIf="!studentvisible">
+    <ion-label style="    padding-left: 10px; font-size: 14px; font-weight: 500;">Student</ion-label>
+    <ion-item  *ngFor="let track of absentStudentlist;let index=index;" [attr.track]="track.tracks | lowercase | lettrcricle">
+      <span (click)="present(track,index)" item-start class="dot"></span>
+      <ion-label (click)="present(track,index)">{{track.company}} </ion-label>
+      <ion-toggle [(ngModel)]="track.isChecked" color="secondary"></ion-toggle>
+    </ion-item>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-row>
+    <ion-col>
+      <button *ngIf="studentvisible" (click)="Gotest()" style="background: #303f9f;color: #fff;float: left; padding: 10px; width: 100%; font-size: 13px; font-weight: 500;">Submit</button>
+      <button *ngIf="!studentvisible" style="background: #f32b21;color: #fff;float: left; padding: 10px; width: 100%; font-size: 13px; font-weight: 500;">The Attendance for this batch and date is already submitted</button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

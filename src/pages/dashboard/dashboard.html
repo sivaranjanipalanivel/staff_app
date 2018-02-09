@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      <button ion-button menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-title>
+    <ion-row>
+      <ion-col class="col" style="display: flex; justify-content: center;">
+        <div style="border-radius: 100%;width: 75px;display: flex;z-index: 10; ">
+          <img style="width: 75px !important; height: 75px !important; border-radius: 100%;" [src]="staffimage">
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div class="ta">
+          <p style="color:white;font-size:17px;    margin-bottom: 8px;  text-transform: capitalize;  ">{{empname}}</p>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-list-header>
+    <h2 style="    text-transform: uppercase;      font-size: 14px;  color: #584198;">Dashboard</h2>
+  </ion-list-header>
+  <ion-card>
+    <div class="row">
+      <div (click)="Gobatch()" class="col" style="border-bottom: 1px solid #ddd; border-right: 1px solid #ddd;    padding: 25px;">
+        <div class="ta">
+          <ion-icon name="ios-people" style="font-size: 25px; color: #5933c5;"></ion-icon>
+          <p style="font-weight: 500; text-transform: uppercase; padding-top: 8px; font-size: 12px; ">Batches</p>
+        </div>
+      </div>
+      <div (click)="Goeschedule()" class="col" style="border-bottom: 1px solid #ddd; border-right: 1px solid #ddd;    padding: 25px;">
+        <div class="ta">
+          <ion-icon name="md-calendar" style="font-size: 25px; color: #5933c5;"></ion-icon>
+          <p style="font-weight: 500; text-transform: uppercase; padding-top: 8px; font-size: 12px; ">Schedules </p>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div (click)="Goattandence()" class="col" style="border-bottom: 1px solid #ddd; border-right: 1px solid #ddd;    padding: 25px;">
+        <div class="ta">
+          <ion-icon name="md-person" style="font-size: 25px; color: #5933c5;"></ion-icon>
+          <p style="font-weight: 500; text-transform: uppercase; padding-top: 8px; font-size: 12px; ">Attendance</p>
+        </div>
+      </div>
+      <div (click)="Goexam()" class="col" style="border-bottom: 1px solid #ddd; border-right: 1px solid #ddd;    padding: 25px;">
+        <div class="ta">
+          <ion-icon name="ios-copy-outline" style="font-size: 25px; color: #5933c5;"></ion-icon>
+          <p style="font-weight: 500; text-transform: uppercase; padding-top: 8px; font-size: 12px;">Exams</p>
+        </div>
+      </div>
+    </div>
+  </ion-card>
+  <div padding>
+    <button ion-button style="background: #6f4fca" full round (click)=Gofee()>Collect Fee</button>
+  </div>
+  <ion-list-header style="    margin: 0; border: 0;">
+    <h2 style="    text-transform: uppercase;      font-size: 14px;  color: #584198;">Today Schedules</h2>
+  </ion-list-header>
+  <ion-row>
+    <ion-col col-sm-6 col-12  style="padding-bottom: 0px; padding-top: 0px;"  *ngFor="let schedule of today_schedule" (click)="goto_batchDetail(schedule)">
+      <ion-card>
+        <div ion-row style="border-bottom: 1px solid #ddd;">
+          <div ion-col col-2 style="background: #6f4fca; text-align: center;    padding-top: 29px;">
+            <ion-icon name="calendar" style=" font-size: 28px; color: white;"></ion-icon>
+          </div>
+          <div ion-col col-7>
+            <p style="   padding-left: 5px;  font-weight: 500; text-transform: uppercase; padding-top: 8px; font-size: 12px;">{{schedule.name}}</p>
+            <p style="padding-left: 5px; font-size: 13px; padding-top: 4px">{{schedule.start_time | date:'shortTime'}} &mdash; {{schedule.end_time | date:'shortTime'}}</p>
+            <button ion-button clear style="    font-size: 12px; padding-left: 5px; color: #6f4fca; height: 1.6rem;">View</button>
+          </div>
+          <div ion-col col-3>
+            <p style=" padding-right:5px; float: right; color: red;  font-weight: 500; text-transform: uppercase; padding-top: 8px; font-size: 12px;" *ngIf="!schedule.finished">Pending</p>
+            <p style=" padding-right:5px; float: right; color: green;  font-weight: 500; text-transform: uppercase; padding-top: 8px; font-size: 12px;" *ngIf="schedule.finished">completed</p>
+          </div>
+        </div>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col>
+      <p class="ta" *ngIf="!IStoday">No Schedule found</p>
+    </ion-col>
+  </ion-row>
+</ion-content>

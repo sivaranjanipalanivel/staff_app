@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-navbar style="background:#303F9F">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+  </ion-navbar>
+  <ion-list no-lines style="    margin-bottom: 0;">
+    <ion-item style="    background: #303F9F; color: white;">
+      <ion-avatar item-start>
+        <img [src]="staffimage">
+      </ion-avatar>
+      <ion-icon name="calendar" item-end></ion-icon>
+      <h2 style="color: white">{{name}}</h2>
+      <p style="color: white">{{staffemail}}</p>
+      <p style="color: white;float:right;    position: absolute; right: 12px; top: 37px;">Attendance</p>
+    </ion-item>
+    <ion-item style="    background: #303F9F; color: white;">
+      <h2 style="text-align:center">{{currentdate |date:'yMMMMEEEEd' }}</h2>
+    </ion-item>
+    <button ion-item menuClose *ngFor="let p of appPages" (click)="openPage(p)">
+      <ion-icon item-start [ngClass]="p.color" [name]="p.icon" [color]="isActive(p)"></ion-icon>
+      {{p.title}}
+    </button>
+  </ion-list>
+</ion-header>
+<ion-content class="outer-content">
+  <ion-grid style="padding:0">
+    <ion-row>
+      <ion-col col-sm-6 col-12 col-md-3 *ngFor="let item of Batchlist" (click)="Goattendancedetail(item.project)" style="padding:0">
+        <ion-card>
+          <ion-list>
+            <ion-item style="    border-left: 2px solid #303f9f;">
+              <div ion-row>
+                <div ion-col>
+                  <h2 style="text-transform: capitalize; "> {{item.project.name}}</h2>
+                </div>
+                <div ion-col>
+                  <button style="float: right;background: #dcdcdc;" *ngIf="item.project.status == 1">Not Started></button>
+                  <button style="float: right;background: #dcdcdc;" *ngIf="item.project.status == 2">In Progress</button>
+                  <button style="float: right;background: #dcdcdc;" *ngIf="item.project.status == 3">On Hold</button>
+                  <button style="float: right;background: #dcdcdc;" *ngIf="item.project.status == 4">Finished</button>
+                </div>
+              </div>
+              <div ion-row>
+                <div ion-col>
+                  <p>{{item.sdate}} - {{item.edate}}</p>
+                </div>
+              </div>
+            </ion-item>
+          </ion-list>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <p style="text-align: center;" *ngIf="Isbatches">No Batches found</p>
+    
+  </ion-grid>
+</ion-content>

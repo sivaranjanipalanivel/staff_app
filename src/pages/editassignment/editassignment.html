@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Edit Assignment</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()" strong>
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list *ngIf="assignment" no-lines>
+    <ion-item style="border-bottom: 1px solid #ddd">
+      <ion-label floating>Title <span style="color: red">*</span> </ion-label>
+      <ion-input [(ngModel)]="assignment.title" name="subject" type="text"></ion-input>
+    </ion-item>
+    <ion-item style="border-bottom: 1px solid #ddd">
+      <ion-label floating>Due date <span style="color: red">*</span> </ion-label>
+      <ion-input [(ngModel)]="assignment.duedate" type="date" name="assignment.enddate" min={{today}}></ion-input>
+    </ion-item>
+    <ion-item style="border-bottom: 1px solid #ddd">
+      <ion-label floating>Description</ion-label>
+      <ion-textarea #ionTxtArea placeholder='{{placeholder}}' [(ngModel)]="assignment.description"></ion-textarea>
+    </ion-item>
+     <p *ngIf="attactive" style=" font-size: 14px;font-weight: 500;padding-top:5px;padding-left: 5px"> Attachments</p>
+    <ion-list *ngIf="attactive" class="m0">
+      <ion-item  *ngFor="let item of attachements">
+        <ion-icon *ngIf="item.extension == 'pdf'" name="ios-paper-outline" style="color: red; " item-start></ion-icon>
+        <ion-icon *ngIf="item.extension == 'doc'" name="ios-document-outline" style="color: blue; " item-start></ion-icon>
+        <ion-icon *ngIf="item.extension == 'png'" name="ios-image-outline" style="color: red; " item-start></ion-icon>
+        <p style="text-align: justify;font-size: 14px;width: 100%" (click)="view(item.filename)">{{item.originalFilename}}</p>
+      </ion-item>
+    </ion-list>
+    <div class="row" style="padding: 10px;">
+      <div class="col">
+        <p style="text-align: justify;font-size: 14px;width: 100%;font-weight: 500;">Upload Your files</p>
+        <p style="text-align: justify;font-size: 12px;width: 100%">(select Format: .pdf, .docx, .doc, .jpg, .png)</p>
+      </div>
+    </div>
+    <ion-list *ngFor="let item of files">
+      <ion-item *ngIf="files">
+        <ion-icon *ngIf="item.extension == 'pdf'" name="ios-paper-outline" style="color: red; " item-start></ion-icon>
+        <ion-icon *ngIf="item.extension == 'doc'" name="ios-document-outline" style="color: blue; " item-start></ion-icon>
+        <ion-icon *ngIf="item.extension == 'png'" name="ios-image-outline" style="color: red; " item-start></ion-icon>
+        <p style="text-align: justify;font-size: 14px;width: 100%">{{item.filename}}</p>
+      </ion-item>
+    </ion-list>
+    <button ion-button style="height: 3rem;background-color: #16a085;color: white;    float: left;    margin-left: 15px;" color="secondary" (click)="uploadfile()">Upload</button>
+  </ion-list>
+  <div padding>
+    <button class="bcakcolor" ion-button full type="submit" (click)="updateassignment(assignment)">Save</button>
+  </div>
+</ion-content>

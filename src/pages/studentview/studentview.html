@@ -1,0 +1,228 @@
+<ion-header>
+  <ion-navbar no-border-bottom style="background:#303F9F">
+    <ion-title></ion-title>
+  </ion-navbar>
+  <ion-list no-lines style="margin-bottom: 0;">
+    <ion-item style="    background: #303F9F; color: white;">
+      <ion-thumbnail item-end>
+        <img src="http://rgr.tridotstech.com/uploads/profiles/{{userid}}/{{Profileimage}}" *ngIf="Profileimage">
+      </ion-thumbnail>
+      <h2 style="font-size:24px">{{firstname}} {{middle_name}} {{lastname}}</h2>
+      <p style="color:white">{{batchname.name}}</p>
+      <p style="color:white">{{branchname.name}}</p>
+    </ion-item>
+  </ion-list>
+  <ion-segment [(ngModel)]="pet" *ngIf="visible">
+    <ion-segment-button value="Personal">
+      Personal
+    </ion-segment-button>
+    <ion-segment-button value="Address" (click)="addressList()">
+      Address
+    </ion-segment-button>
+    <ion-segment-button value="Guardians" (click)="guardianList()">
+      Guardians
+    </ion-segment-button>
+    <ion-segment-button value="fee" (click)="feeList()">
+      Fee
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+<ion-content [ngSwitch]="stu" style="    margin-top: 15px;">
+  <div [ngSwitch]="pet" *ngSwitchCase="'students'">
+    <div *ngSwitchCase="'Student'">
+      <ion-row *ngIf="studentprofile" class="border">
+        <ion-col col-5 class="paddingcol">
+          <p style="color: #555; font-size: 14px;  margin-top: 6px;">Firstname </p>
+        </ion-col>
+        <ion-col col-1 class="paddingcol">
+          <p style="font-size: 14px;  margin-top: 6px;">-</p>
+        </ion-col>
+        <ion-col col-6 class="paddingcol">
+          <p style="    padding-right: 5px; padding-left: 0px; font-size: 14px; margin-top: 6px;">{{studentprofile.firstname}} </p>
+        </ion-col>
+      </ion-row>
+      <div *ngIf="studentprofile">
+        <ion-row class="border" *ngIf="studentprofile.user.middle_name">
+          <ion-col col-5 class="paddingcol">
+            <p style="color: #555; font-size: 14px; margin-top: 3px;">Middlename</p>
+          </ion-col>
+          <ion-col col-1 class="paddingcol">
+            <p style="font-size: 14px;  margin-top: 6px;">-</p>
+          </ion-col>
+          <ion-col col-6 class="paddingcol">
+            <p style="padding-right: 5px;    padding-left: 0px; font-size: 14px; margin-top: 3px;">{{studentprofile.user.middle_name}} </p>
+          </ion-col>
+        </ion-row>
+      </div>
+      <ion-row *ngIf="studentprofile" class="border">
+        <ion-col col-5 class="paddingcol">
+          <p style=" color: #555; font-size: 14px; margin-top: 3px;">Lastname </p>
+        </ion-col>
+        <ion-col col-1 class="paddingcol">
+          <p style="font-size: 14px;  margin-top: 6px;">-</p>
+        </ion-col>
+        <ion-col col-6 class="paddingcol">
+          <p style="padding-right: 5px;    padding-left: 0px; font-size: 14px; margin-top: 3px;">{{studentprofile.lastname}} </p>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="studentprofile" class="border">
+        <ion-col col-5 class="paddingcol">
+          <p style="    color: #555; font-size: 14px; margin-top: 3px;">Application Date </p>
+        </ion-col>
+        <ion-col col-1 class="paddingcol">
+          <p style="font-size: 14px;  margin-top: 6px;">-</p>
+        </ion-col>
+        <ion-col col-6 class="paddingcol">
+          <p style="padding-right: 5px;    padding-left: 0px; font-size: 14px; margin-top: 3px;">{{studentprofile.app_date1}} </p>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="branchname" class="border">
+        <ion-col col-5 class="paddingcol">
+          <p style="    color: #555; font-size: 14px;  margin-top: 3px;">Branch </p>
+        </ion-col>
+        <ion-col col-1 class="paddingcol">
+          <p style="font-size: 14px;  margin-top: 6px;">-</p>
+        </ion-col>
+        <ion-col col-6 class="paddingcol">
+          <p style=" padding-right: 5px;   padding-left: 0px; font-size: 14px; margin-top: 3px;">{{branchname.name}} </p>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="academicyear" class="border">
+        <ion-col col-5 class="paddingcol">
+          <p style="    color: #555; font-size: 14px;  margin-top: 3px;">Academic Year </p>
+        </ion-col>
+        <ion-col col-1 class="paddingcol">
+          <p style="font-size: 14px;  margin-top: 6px;">-</p>
+        </ion-col>
+        <ion-col col-6 class="paddingcol">
+          <p style=" padding-right: 5px;   padding-left: 0px; font-size: 14px; margin-top: 3px;">{{academicyear.academic_year_name}} </p>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="degreename" class="border">
+        <ion-col col-5 class="paddingcol">
+          <p style="    color: #555; font-size: 14px; margin-top: 6px;">Course </p>
+        </ion-col>
+        <ion-col col-1 class="paddingcol">
+          <p style="font-size: 14px;  margin-top: 6px;">-</p>
+        </ion-col>
+        <ion-col col-6 class="paddingcol">
+          <p style="padding-right: 5px;    padding-left: 0px; font-size: 14px; margin-top: 6px;">{{degreename.name}} </p>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="batchname" class="border">
+        <ion-col col-5 class="paddingcol">
+          <p style="color: #555; font-size: 14px; margin-top: 6px;">Batch </p>
+        </ion-col>
+        <ion-col col-1 class="paddingcol">
+          <p style="font-size: 14px;  margin-top: 6px;">-</p>
+        </ion-col>
+        <ion-col col-6 class="paddingcol">
+          <p style=" padding-right: 5px;   padding-left: 0px; font-size: 14px; margin-top: 6px;">{{batchname.name}} </p>
+        </ion-col>
+      </ion-row>
+    </div>
+    <div *ngSwitchCase="'Personal'">
+      <ion-row *ngIf="studentprofile" class="">
+        <ion-list no-lines>
+          <ion-item>
+            <ion-icon name="person" item-start style="    color: #444444;"></ion-icon>
+            <p style="padding-right: 5px;padding-left: 0px;color: black; font-size: 16px; margin-top: 3px;" *ngIf="studentprofile.user.gender == 1">Male</p>
+            <p style="padding-right: 5px;padding-left: 0px; color: black;font-size: 16px; margin-top: 3px;" *ngIf="studentprofile.user.gender == 2">Female </p>
+          </ion-item>
+          <ion-item>
+            <ion-icon name="call" item-start style="    color: #444444;"></ion-icon>
+            {{studentprofile.user.mobile}} | {{studentprofile.user.phonenumber}}
+          </ion-item>
+          <ion-item>
+            <ion-icon name="mail" item-start style="    color: #444444;"></ion-icon>
+            {{studentprofile.email}}
+          </ion-item>
+          <ion-item>
+            <ion-icon name="md-calendar" item-start style="    color: #444444;"></ion-icon>
+            {{studentprofile.date_of_birth}}
+          </ion-item>
+          <ion-item *ngIf="studentprofile.user.birth_place">
+            <ion-icon name="pin" item-start style="    color: #444444;"></ion-icon>
+            {{studentprofile.user.birth_place}}
+          </ion-item>
+        </ion-list>
+      </ion-row>
+    </div>
+    <div *ngSwitchCase="'Address'">
+      <h3 style="    color: #303F9F; width: 100%; font-size: 17px; padding: 12px; font-weight: 400; margin: 0;">Addresses</h3>
+      <ion-list no-lines>
+        <ion-item style="    border-left: 3px solid #303f9f;    margin-bottom: 13px;">
+          <h2 style="color: #303f9f; font-size: 15px;">Permanent Address</h2>
+          <h3>{{studentprofile.user.billing_street}}</h3>
+          <p>{{studentprofile.user.billing_state}} - {{studentprofile.user.billing_zip}}</p>
+          <p></p>
+        </ion-item>
+        <ion-item style="    border-left: 3px solid #303f9f;">
+          <h2 style="color: #303f9f; font-size: 15px;">Communication Address</h2>
+          <h3>{{studentprofile.user.shipping_street}}</h3>
+          <p>{{studentprofile.user.shipping_state}} - {{studentprofile.user.shipping_zip}}</p>
+          <p></p>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div *ngSwitchCase="'Guardians'">
+      <h3 style="    color: #303F9F; width: 100%; font-size: 17px; padding: 12px; font-weight: 400; margin: 0;">Guardians</h3>
+      <ion-list no-lines *ngFor="let gra of guardians">
+        <ion-item style="">
+          <ion-icon name="person" item-start></ion-icon>
+          <h2 style="color: #303f9f; font-size: 16px;"> {{gra.name}}  -  {{gra.relation}}</h2>
+          <p>{{gra.mobile_no}}</p>
+          <p>{{gra.g_email}}</p>
+          <p></p>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div *ngSwitchCase="'fee'">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-sm-6 col-12 col-md-6  *ngFor="let term of invoice">
+            <!-- <ion-card> -->
+              <ion-item-group>
+      <!-- <h3 style="    color: #303F9F; width: 100%; font-size: 17px; font-weight: 400; margin: 0;">{{term.term_name}}</h3> -->
+
+                <ion-item-divider color="light">{{term.term_name}}
+                </ion-item-divider>
+                <ion-list *ngFor="let fee of term.fees" (click)="GopaymentDetail(fee)" style="border: 1px solid #ddd;
+    border-left: 2px solid #303f9f;margin: -1px 0 5px;">
+                <!-- <h3>{{fee.term_type}}</h3> | groupBy:{{fee.term_type}}"style="border: 1px solid #303f9f;
+    border-top: none;margin-bottom: 0px;" style="    border-left: 2px solid #303f9f;"-->
+                  <ion-item>
+                    <div ion-row>
+                      <div ion-col>
+                        <h2 style="text-transform: capitalize; "> {{fee.term_id}}</h2>
+                      </div>
+                      <div ion-col>
+                        <button style="float: right;background: #dcdcdc;">Due Date: {{fee.due_date | date}}</button>
+                      </div>
+                    </div>
+                    <div ion-row>
+                      <div ion-col>
+                        <p> Amount: <span style="color: black;"> ₹ {{fee.amount}}</span></p>
+                      </div>
+                      <div ion-col *ngIf="fee.invoice">
+                        <button *ngIf="fee.invoice.status == 2" ion-button color="secondary" outline style="float: right  ;  height: 20px; font-size: 12px;">Paid</button>
+                        <button *ngIf="fee.invoice.status == 1" ion-button color="danger" outline style="float: right  ;  height: 20px; font-size: 12px;">Unpaid</button>
+                        <button *ngIf="fee.invoice.status == 4" ion-button color="danger" outline style="float: right  ;  height: 20px; font-size: 12px;">Overdue</button>
+                        <button *ngIf="fee.invoice.status == 3" ion-button color="danger" outline style="float: right  ;  height: 20px; font-size: 12px;">Partially Paid</button>
+                        <button *ngIf="fee.invoice.status == 5" ion-button color="danger" outline style="float: right  ;  height: 20px; font-size: 12px;">Cancelled</button>
+                      </div>
+                      <div ion-col *ngIf="!fee.invoice">
+                        <button *ngIf="fee.status == 0" ion-button color="danger" outline style="float: right  ;  height: 20px; font-size: 12px;">Collect Fee</button>
+                      </div>
+                    </div>
+                  </ion-item>
+                </ion-list>
+              </ion-item-group>
+            <!-- </ion-card> -->
+          </ion-col>
+        </ion-row>
+        <p style="text-align: center;" *ngIf="Isinvoice"> No Fee found</p>
+      </ion-grid>
+    </div>
+  </div>
+</ion-content>

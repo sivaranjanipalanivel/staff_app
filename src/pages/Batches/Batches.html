@@ -1,0 +1,79 @@
+<ion-header>
+  <ion-navbar no-border-bottom color="danger">
+    <ion-title>{{batches.project.name}}</ion-title>
+  </ion-navbar>
+  <ion-segment [(ngModel)]="segment">
+    <ion-segment-button value="Students">
+      Students
+    </ion-segment-button>
+    <ion-segment-button value="Assignments" (click)="get_assignment()">
+      Assignments
+    </ion-segment-button>
+    <ion-segment-button value="Attendance" (click)="get_discussion()">
+      Discussions
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+<ion-content [ngSwitch]="segment">
+  <ion-refresher (ionRefresh)="doRefresh($event)" *ngSwitchCase="'Assignments'">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-list *ngSwitchCase="'Students'" #scheduleList>
+    <ion-item-group>
+      <ion-item-sliding style="    border-bottom: 1px solid #ddd;" *ngFor="let session of Studentlist" #slidingItem [attr.track]="session.tracks | lowercase | lettrcricle">
+        <button ion-item (click)="goToStudentDetail(session)">
+          <p style="color: #2196f3;" item-end>STU0000{{session.userid}}</p>
+          <h3>{{session.company}}</h3>
+          <p>{{session.phonenumber}}</p>
+          <p *ngIf="session.gender == 1">Male</p>
+          <p *ngIf="session.gender == 2">Female </p>
+        </button>
+      </ion-item-sliding>
+    </ion-item-group>
+    <p *ngIf="Studentlist == 0" style="text-align: center;">No Students found</p>
+  </ion-list>
+  <ion-list *ngSwitchCase="'Assignments'">
+    <ion-item-group>
+      <ion-item-sliding *ngFor="let ass of assignment; let index=index" #slidingItem [attr.track]="ass.tracks | lowercase | lettrcricle">
+        <button ion-item (click)="goToassignmentDetail(ass)">
+          <h3>{{ass.title}}</h3>
+          <p>Due date: {{ass.sdate}}</p>
+          <p> {{ass.description}}</p>
+        </button>
+        <ion-item-options>
+          <button ion-button color="favorite" (click)="editassignment(slidingItem,ass.assignment_id,index)" *ngIf="segment === 'Assignments'">
+            Edit
+          </button>
+          <button ion-button color="danger" (click)="deleteassignment(slidingItem,ass.assignment_id,index)" *ngIf="segment === 'Assignments'">
+            Delete
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-item-group>
+    <p *ngIf="assignment.length == 0" style="text-align: center;">No Assignment found</p>
+  </ion-list>
+  <ion-list *ngSwitchCase="'Attendance'">
+    <ion-item-group>
+      <ion-item-sliding style="border-bottom: 1px solid #ddd;" *ngFor="let session of disussionlist" #slidingItem [attr.track]="session.tracks | lowercase | lettrcricle">
+        <button ion-item (click)="goToSessionDetail(session)">
+          <h3>{{session.subject}}</h3>
+          <p>
+            <ion-icon name="calendar"></ion-icon>
+            {{session.datecreated | date:'mediumDate'}}
+          </p>
+        </button>
+      </ion-item-sliding>
+    </ion-item-group>
+    <p style="text-align: center;" *ngIf="disussionlist.length == 0">No Discussions found</p>
+  </ion-list>
+  <ion-fab bottom right #fab *ngSwitchCase="'Attendance'">
+    <button ion-fab (click)="presentFilter()" color="danger">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+  <ion-fab bottom right #fab *ngSwitchCase="'Assignments'">
+    <button ion-fab (click)="addassignment()" color="danger">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

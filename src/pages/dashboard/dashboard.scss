@@ -1,0 +1,31 @@
+page-dashboard {
+    item-avatar {
+        font-size: 12px;
+        align-self: flex-start;
+      }
+    
+      ion-avatar img {
+        position: relative;
+        width: 100% !important;
+        height: 100% !important;
+        border: 2px solid #fff;
+        border-radius: 50%;
+        //margin-left: 50%;
+        margin: 0px 10px;
+        max-width: 75px !important;  //any size
+        max-height: 75px !important; //any size
+      }
+      .toolbar-background-md {
+      //  border-color: #b2b2b2;
+      background: url(../assets/img/side.jpg) center center;
+        // background: #2196F3;
+    }
+
+    .toolbar-title-md{
+      color:#fff;
+    }
+    .bar-button-default-md, .bar-button-clear-md-default, .bar-button-md-default {
+        color: #fff;
+        background-color: transparent;
+    }  
+}

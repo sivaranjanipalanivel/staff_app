@@ -1,0 +1,77 @@
+<ion-nav id="navCtrl" [root]="rootPage" #content swipeBackEnabled="false">
+</ion-nav>
+<ion-header>
+</ion-header>
+<ion-content>
+    <div class="logo">
+        <img style="    max-width: 50%; " src="assets/img/iconlogo.png" alt="Ionic">
+    </div>
+    <ion-row style="text-align: center;">
+        <ion-col col-md-6 col-12 col-sm-6>
+            <form #loginForm="ngForm" novalidate>
+            <h2 style="font-size: 22px;">Staff Login</h2>
+            
+                <ion-list>
+                    <ion-item>
+                        <ion-label floating color="primary">Email-Id</ion-label>
+                        <ion-input [(ngModel)]="login.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off" required>
+                        </ion-input>
+                    </ion-item>
+                    <p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
+                        Email-Id is required
+                    </p>
+                    <ion-item>
+                        <ion-label floating color="primary">Password</ion-label>
+                        <ion-input [(ngModel)]="login.password" name="password" type="password" #password="ngModel" required>
+                        </ion-input>
+                    </ion-item>
+                    <p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
+                        Password is required
+                    </p>
+                </ion-list>
+                <ion-row responsive-sm>
+                    <ion-col>
+                        <button ion-button (click)="onLogin(loginForm)" type="submit" block>Login</button>
+                    </ion-col>
+                </ion-row>
+            </form>
+        </ion-col>
+    </ion-row>
+</ion-content>
+<!-- <ion-content class="welcome-view multi-bg-outer">
+            <form #loginForm="ngForm" novalidate>
+
+  <div>
+    <img class="multi-bg1 facebook-welcome-bg " src="assets/img/tridots.jpg">
+    <span class="bg-overlay"></span>
+    <div style="height:35px"></div>
+    <ion-list style="border-bottom:none">
+
+      <ion-item class="bt">
+        <ion-icon name="ios-person-outline" item-start class="cw"></ion-icon>
+
+        <ion-label floating>Username</ion-label>
+        <ion-input [(ngModel)]="login.username" name="username" type="text" #username="ngModel" spellcheck="false" autocapitalize="off" required></ion-input>
+      </ion-item>
+        <p ion-text [hidden]="username.valid || submitted == false" class="cw" padding-left>
+                        Email-Id is required
+                    </p>
+      <ion-item class="bt">
+        <ion-icon name="ios-lock-outline" item-start class="cw"></ion-icon>
+
+        <ion-label floating>Password</ion-label>
+        <ion-input [(ngModel)]="login.password" name="password" type="password" #password="ngModel" required></ion-input>
+      </ion-item>
+      <p ion-text [hidden]="password.valid || submitted == false" class="cw" padding-left>
+                        Password is required
+                    </p>
+    </ion-list>
+    <div class=" row">
+        <div class="col ">
+          <button ion-button color="dark" round class="get_s" (click)="onLogin(loginForm)" type="submit">Login</button>
+       
+        </div>
+      </div>
+  </div>
+</form>
+</ion-content> -->

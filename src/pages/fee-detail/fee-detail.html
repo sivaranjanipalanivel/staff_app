@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Fee</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <!-- <div ion-row *ngIf="!invoicecheck">
+    <div ion col>
+      <p style="font-weight: 500;color: red;text-align: center;">No Fee found</p>
+    </div>
+  </div> -->
+  <div ion-row style="border-bottom: 1px solid #ddd">
+    <div ion-col>
+      <P style="font-weight: 500;"> Fee Id</P>
+      <p> # INV-000{{invoice.number}}</p>
+      <button style="background: #dcdcdc">Due Date: {{invoice.duedate | date}} </button>
+    </div>
+    <div ion-col style="text-align: right;">
+      <p style="font-weight: 500;"> Amount</p>
+      <p> ₹ {{invoice.total}}</p>
+      <p *ngIf="dueamount != 0" style="font-weight: 500;"> Due Amount <span>₹ {{dueamount}}</span></p>
+    </div>
+  </div>
+  <ion-row>
+    <ion-col>
+      <p style="float:left;font-weight: 500;">Transactions</p>
+    </ion-col>
+    <ion-col>
+      <button *ngIf="invoice.status == 1" ion-button color="danger" outline style="float: right  ;  font-size: 12px;">Unpaid</button>
+      <button *ngIf="invoice.status == 2" ion-button color="secondary" outline style="float: right  ;  font-size: 12px;">Paid</button>
+      <button *ngIf="invoice.status == 4" ion-button color="danger" outline style="float: right  ;  font-size: 12px;">Overdue</button>
+      <button *ngIf="invoice.status == 3" ion-button color="danger" outline style="float: right  ;  font-size: 12px;">Partially Paid</button>
+      <button  *ngIf="invoice.status == 5" ion-button color="danger" outline style="float: right  ;  font-size: 12px;">Cancelled</button>
+    </ion-col>
+  </ion-row>
+  <div ion-row>
+    <div ion-col>
+      <ion-list no-lines>
+        <ion-item *ngFor="let item of payments" style=" border-left: 2px solid #6f4fca;border-bottom: 1px solid #ddd">
+          <div ion-row>
+            <div ion-col>
+              <h2 style="text-transform: capitalize; ">Payment Mode: {{item.payment.name}}</h2>
+              <h2 style="text-transform: capitalize; "></h2>
+            </div>
+            <div ion-col style="text-align: right;">
+              <p style="color:  #000">Amount</p>
+            </div>
+          </div>
+          <div ion-row>
+            <div ion-col>
+              <button style="background: #dcdcdc">Paid Date: {{item.date | date}} </button>
+            </div>
+            <ion-col style="text-align: right;">
+              <p style="color:  #000">₹ {{item.amount}}</p>
+            </ion-col>
+          </div>
+        </ion-item>
+      </ion-list>
+    </div>
+  </div>
+  <div style="    text-align: center;">
+    <button *ngIf="invoice.status == 1" class="button_color" ion-button round outline (click)=Gofee()>Record Payment</button>
+    <button *ngIf="invoice.status == 4" class="button_color" ion-button round outline (click)=Gofee()>Record Payment</button>
+    <button *ngIf="invoice.status == 3" class="button_color" ion-button round outline (click)=Gofee()>Record Payment</button>
+  </div>
+</ion-content>

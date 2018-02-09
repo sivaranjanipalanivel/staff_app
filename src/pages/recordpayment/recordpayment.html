@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Record Payment
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()" strong>
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <form #recordform="ngForm" novalidate>
+    <ion-list>
+      <ion-item-group>
+        <ion-item>
+          <ion-label stacked>Amount Received <span style="color: red">*</span> </ion-label>
+          <ion-input [(ngModel)]="record.amount" name="amount" placeholder="Amount" type="text" #amount="ngModel" spellcheck="false" autocapitalize="off" required></ion-input>
+        </ion-item>
+        <p ion-text [hidden]="amount.valid || submitted == false" color="danger" padding-left>
+          Amount is required
+        </p>
+          <ion-item>
+          <ion-label stacked>Payment Date <span style="color: red">*</span> </ion-label>
+          <ion-input [(ngModel)]="record.date" min={{today}} name="date" placeholder="date" type="date" #date="ngModel" spellcheck="false" autocapitalize="off" required></ion-input>
+        </ion-item>
+        <p ion-text [hidden]="date.valid || submitted == false" color="danger" padding-left>
+          Payment Date is required
+        </p>
+        <ion-item>
+          <ion-label stacked>Payment Mode <span style="color: red">*</span> </ion-label>
+          <ion-select [(ngModel)]="record.payment" [ngModelOptions]="{standalone: true}" required #payment="ngModel" (ionChange)="onSelectpaymentsmode($event)" >
+            <ion-option *ngFor="let payment of paymentsmode" [value]="payment.id">{{payment.name}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <p ion-text [hidden]="payment.valid || submitted == false" color="danger" padding-left>
+          Please select Payment Mode
+        </p>
+        <ion-item style="border-bottom: 1px solid #ddd">
+        <ion-label stacked>Leave a note</ion-label>
+        <ion-textarea #ionTxtArea [ngModelOptions]="{standalone: true}" placeholder='Admin Note' [(ngModel)]="record.description"></ion-textarea>
+      </ion-item>
+      </ion-item-group>
+    </ion-list>
+     <div padding>
+      <button ion-button class="bcakcolor" full type="submit" (click)="save_recod(recordform)">Save</button>
+    </div>
+  </form>
+</ion-content>

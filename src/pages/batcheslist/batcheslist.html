@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Batches</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-grid style="padding:0">
+    <ion-row>
+      <ion-col col-sm-6 col-12 col-md-3 *ngFor="let item of Batcheslist" (click)="Gobatchesdetail(staffbatch)" style="padding:0">
+        <ion-card>
+          <ion-list>
+            <ion-item style="    border-left: 2px solid #6f4fca;">
+              <div ion-row>
+                <div ion-col>
+                  <h2 style="text-transform: capitalize; "> {{staffbatch}}</h2>
+                </div>
+                <div ion-col>
+                  <button style="float: right;background: #dcdcdc;" *ngIf="batchstatus == 1">Not Started></button>
+                  <button style="float: right;background: #dcdcdc;" *ngIf="batchstatus == Open">In Progress</button>
+                  <button style="float: right;background: #dcdcdc;" *ngIf="batchstatus == 3">On Hold</button>
+                  <button style="float: right;background: #dcdcdc;" *ngIf="batchstatus == Completed">Finished</button>
+                </div>
+              </div>
+              <div ion-row>
+                <div ion-col>
+                  <p>{{batchStartdate}} - {{batchEnddate}}</p>
+                </div>
+              </div>
+            </ion-item>
+          </ion-list>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <p style="text-align: center;" *ngIf="Isbatches">No Batches found</p>
+  </ion-grid>
+</ion-content>

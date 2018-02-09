@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Add Discussions
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()" strong>
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="outer-content">
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Subject</ion-label>
+      <ion-input [(ngModel)]="subject" type="text"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Description</ion-label>
+      <ion-textarea #ionTxtArea placeholder='{{placeholder}}' [(ngModel)]="description"></ion-textarea>
+    </ion-item>
+    <ion-item>
+      <ion-label>Visible to student</ion-label>
+      <ion-checkbox [(ngModel)]="Visible"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+  <div padding>
+    <button class="bcakcolor" ion-button full (click)="adddiscussion()">Save</button>
+  </div>
+</ion-content>

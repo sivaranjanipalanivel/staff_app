@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Exam Criteria</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item-group>
+      <ion-item-sliding style="    border-bottom: 1px solid #ddd;" *ngFor="let session of examcriterialist; let index=index" #slidingItem [attr.track]="session.tracks | lowercase | lettrcricle">
+        <button ion-item>
+          <h3>{{session.name}}</h3>
+          <p>Weightage: {{session.weightage}}</p>
+          <button (click)="editexamcriteria(session)" style="color: #717A86;font-size: 2.2rem;" ion-button clear item-end>
+            <ion-icon name="ios-create-outline"></ion-icon>
+          </button>
+          <button (click)="deleteexamcriteria(session,index)" style="color: #e81809;font-size: 2.2rem;" ion-button clear item-end>
+            <ion-icon name="ios-trash-outline"></ion-icon>
+          </button>
+        </button>
+      </ion-item-sliding>
+    </ion-item-group>
+    <p *ngIf="examcriterialist == 0" style="text-align: center;">No Exam Criteria found</p>
+  </ion-list>
+  <ion-fab bottom right #fab>
+    <button ion-fab (click)="addexamcriteria()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

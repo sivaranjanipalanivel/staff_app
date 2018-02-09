@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Exam schedule</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-list no-lines>
+    <ion-item style="border-bottom: 1px solid #ddd" *ngFor="let item of Examschedulelist" (click)="goto_examdetail(item.id,item)">
+      <ion-avatar item-start>
+        <div style="border-radius: 50%; text-align: center; width: 40px; height: 40px;" [ngClass]="item.color | lettrtcolor">
+          <p style="font-size: 22px;color: #fff;font-weight: 300;text-transform: uppercase; line-height: 1.9;">
+            {{item.letter}}
+          </p>
+        </div>
+      </ion-avatar>
+      <h2 style="text-overflow: ellipsis;overflow: hidden;text-transform: capitalize; ">{{item.exam.Title}}</h2>
+      <p>
+        Batchname: {{item.batch_id | batchnamename}}
+      </p>
+      <p>
+        Exam date: {{item.exam.examDate| date:'mediumDate'}}
+      </p>
+    </ion-item>
+    <p style="text-align: center;" *ngIf="Isexamlist">No Examschedule found</p>
+  </ion-list>
+    <ion-infinite-scroll *ngIf="loadMoreData == false" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    <p *ngIf="!Isexamlist" style="text-align: center;">No more examschedule found</p>
+</ion-content>

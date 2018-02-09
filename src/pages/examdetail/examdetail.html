@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Exam Detail</ion-title>
+  </ion-navbar>
+</ion-header>
+<!-- <ion-content padding>
+  <div class="list card">
+    <h2 style="    font-size: 18px;"> <span style="width:30%;font-weight:bold;    font-size: 18px;"> Exam Name: </span>{{examdetail.Title}}</h2>
+    <div style="border-bottom: 1px solid #ddd" class="item" *ngFor="let exam of examdetail.exam">
+      <p><span style="width:30%;font-weight:bold"> Batch Name: </span>{{exam.batch_id | batchnamename}}</p>
+      <ion-row>
+        <ion-col style="padding: 0px; margin-top: -10px;">
+          <p><span style="width:30%;font-weight:bold">Date: </span>{{exam.ExamDate | date}}</p>
+        </ion-col>
+        <ion-col style="padding: 0px; margin-top: -10px;">
+          <p><span style="width:30%;font-weight:bold">Time: </span>{{exam.StartDate | date:'shortTime'}} - {{exam.EndDate | date:'shortTime'}}
+            
+          </p>
+        </ion-col>
+      </ion-row>
+      <p *ngIf="exam.supervisor_id" style="width:100%;    margin-top: 0px;"> <span style="width:30%;font-weight:bold">Supervisor : </span>{{exam.supervisor_id |staffname }} </p>
+      <p *ngIf="exam.room_no" style="width:100%"> <span style="width:30%;font-weight:bold"> Room No :</span> {{exam.room_no }}</p>
+      <p *ngIf="exam.examiner_id" style="width:100%"> <span style="width:30%;font-weight:bold"> Examiner :</span> {{exam.examiner_id |staffname}}</p>
+    </div>
+    <ion-item-group>
+      <ion-item-divider color="light">Exam Criteria
+      </ion-item-divider>
+    </ion-item-group>
+    <ion-list>
+      <ion-item *ngFor="let examcriteria of examdetail.examcriteria">
+        <ion-icon name="rose" item-start></ion-icon>
+        <h2>{{examcriteria.criteria_id}}</h2>
+        <p>No of Questions : {{examcriteria.no_question}}</p>
+        <p>Weightage : {{examcriteria.weightage}}</p>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content> -->
+
+<ion-content padding>
+  <ion-item-group *ngIf="examdetail">
+        <ion-item-divider color="light">Exam Schedule
+        </ion-item-divider>
+        <ion-item>
+          <ion-label stacked>Exam date<span style="color: red">*</span></ion-label>
+          <ion-input [(ngModel)]="examdetail.ExamDate" min={{today}} name="examdate" placeholder="Exam Date" type="date"></ion-input>
+        </ion-item>       
+        <ion-item style="width:50%;float:left">
+          <ion-label stacked>Start time <span style="color: red">*</span></ion-label>
+          <ion-input [(ngModel)]="examdetail.StartDate" name="starttime" placeholder="Start time" type="time"></ion-input>
+        </ion-item>        
+        <ion-item style="width:50%">
+          <ion-label stacked>End time <span style="color: red">*</span></ion-label>
+          <ion-input [(ngModel)]="examdetail.EndDate" name="endtime" placeholder="End time" type="time"></ion-input>
+        </ion-item>
+
+         <ion-item>
+          <ion-label floating>Supervisor  </ion-label>
+          <ion-select [(ngModel)]="examdetail.supervisor_id"  (ionChange)="onSelectChange($event)">
+            <ion-option *ngFor="let exam of subject" [value]="exam.staffid">{{exam.firstname}}</ion-option>
+          </ion-select>
+        </ion-item> 
+        
+        <ion-item>
+          <ion-label stacked>Room No</ion-label>
+          <ion-input [(ngModel)]="examdetail.room_no" placeholder="Room No" type="text"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Examiner  </ion-label>
+          <ion-select [(ngModel)]="examdetail.examiner_id"  (ionChange)="onSelectexam($event)">
+            <ion-option *ngFor="let exam of subject" [value]="exam.staffid">{{exam.firstname}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-item-group>
+   <div padding>
+      <button class="bcakcolor" ion-button full type="submit" (click)="save_examschedule()">Save</button>
+    </div>
+
+ </ion-content>

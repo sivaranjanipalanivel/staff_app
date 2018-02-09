@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Edit Status</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="dismiss()" strong>
+        <ion-icon name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list *ngIf="assignment" no-lines>
+    <ion-item>
+      <ion-label floating>Status <span style="color: red">*</span> </ion-label>
+      <ion-select [(ngModel)]="assignment.status" #C ionChange="onChange(C.value)" style="padding-left: 11px;">
+        <ion-option value="0">Pending</ion-option>
+        <ion-option value="2">Submitted</ion-option>
+        <ion-option value="1">Completed</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item style="border-bottom: 1px solid #ddd">
+      <ion-label floating>Date completed<span style="color: red">*</span> </ion-label>
+      <ion-input [(ngModel)]="assignment.datecompleted" type="date" name="assignment.enddate" min={{today}}></ion-input>
+    </ion-item>
+    <ion-item style="border-bottom: 1px solid #ddd">
+      <ion-label floating>Remarks</ion-label>
+      <ion-textarea #ionTxtArea placeholder='{{placeholder}}' [(ngModel)]="assignment.remarks"></ion-textarea>
+    </ion-item>
+    <p *ngIf="attactive" style=" font-size: 14px;font-weight: 500;padding-top:5px;padding-left: 10px"> Attachments</p>
+    <ion-list *ngIf="attactive" class="m0">
+      <ion-item *ngFor="let item of attachements">
+       <ion-icon *ngIf="item.extension == 'pdf'" name="ios-paper-outline" style="color: red; " item-start></ion-icon>
+       <ion-icon *ngIf="item.extension == 'doc'" name="ios-document-outline" style="color: blue; " item-start></ion-icon>
+      <ion-icon *ngIf="item.extension == 'png'" name="ios-image-outline" style="color: red; " item-start></ion-icon>
+        <p style="text-align: justify;font-size: 14px;width: 100%" (click)="view(item.filename)">{{item.originalFilename}}</p>
+      </ion-item>
+    </ion-list>
+    <div padding>
+      <button class="bcakcolor" ion-button full type="submit" (click)="updateassignment(assignment)">Save</button>
+    </div>
+    <ion-card>
+      <div class="row" style="border-bottom: 1px solid #ddd;background: #ddd">
+        <div class="col">
+          <p style="float: left;    padding-left: 5px;  font-weight: 500; text-transform: uppercase; padding-top: 8px; font-size: 12px;">Messages</p>
+        </div>
+      </div>
+      <ion-list no-lines>
+        <ion-item style="border-bottom: 1px solid #ddd;" *ngFor="let comm of staffcomments">
+          <ion-avatar item-start>
+            <img *ngIf="!comm.imagepath" src="assets/img/profile-icon-9.png">
+          <img *ngIf="comm.imagepath" src={{comm.imagepath}}>
+
+          </ion-avatar>
+          <h2>{{comm.PostedBy}}</h2>
+          <!-- <h2 *ngIf="comm.statusactive">{{Staffname}}</h2> -->
+          <p>{{comm.description}}</p>
+          <ion-note item-end>{{comm.datecreated | amTimeAgo}}</ion-note>
+        </ion-item>
+      </ion-list>
+      <div ion-row style="    border-top: 1px solid #ddd;">
+        <div ion-col col-10>
+          <ion-input [(ngModel)]="skillInput" placeholder="Add Messages" name="skillValue"></ion-input>
+        </div>
+        <div ion-col col-2 style="text-align: right;">
+          <ion-icon (click)="sendcomment(skillInput)" name="md-send" style="padding: 10px; font-size: 25px;"></ion-icon>
+        </div>
+      </div>
+    </ion-card>
+  </ion-list>
+</ion-content>

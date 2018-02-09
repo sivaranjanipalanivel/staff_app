@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{title}}</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item-group>
+      <ion-item-divider sticky>
+        <ion-label>
+          Students
+        </ion-label>
+      </ion-item-divider>
+      <ion-item-sliding style="border-bottom: 1px solid #ddd" (click)="editassignstudent(slidingItem,stu.assignmentid,stu.student_id,index)" *ngFor="let stu of Studentlist" #slidingItem [attr.track]="stu.tracks | lowercase | lettrcricle">
+        <button ion-item>
+          <p style="color: #2196f3;float: right;">STU0000{{stu.student.userid}}</p>
+          <h3>{{stu.student.company}}</h3>
+          <p>{{stu.student.phonenumber}}</p>
+          <p *ngIf="stu.student.gender == 1">Male</p>
+          <p *ngIf="stu.student.gender == 2">Female </p>
+          <button style="float: right;color:white;background: #e1241e;" *ngIf="stu.status == 0">Pending</button>
+          <button style="float: right;color:white;background: #2dd082;" *ngIf="stu.status == 1">Completed</button>
+          <button style="float: right;color:white;background: #18b7e4;" *ngIf="stu.status == 2">Submitted</button>
+        </button>
+      </ion-item-sliding>
+    </ion-item-group>
+  </ion-list>
+  <ion-fab  bottom right #fab>
+    <button class="bcakcolor" ion-fab (click)="sendmessage()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

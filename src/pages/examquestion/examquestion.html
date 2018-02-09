@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-navbar no-border-bottom>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Exam</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-list no-lines>
+    <ion-item style="border-bottom: 1px solid #ddd" *ngFor="let item of Examlist; let index=index" >
+      <ion-avatar item-start (click)="goto_examdetail(item.id,item)">
+        <div style="border-radius: 50%; text-align: center; width: 40px; height: 40px;" [ngClass]="item.color | lettrtcolor">
+          <p style="font-size: 22px;color: #fff;font-weight: 300;text-transform: uppercase; line-height: 1.9;">
+            {{item.letter}}
+          </p>
+        </div>
+      </ion-avatar>
+      <h2 (click)="goto_examdetail(item.id,item)" style="text-overflow: ellipsis;overflow: hidden;text-transform: capitalize; ">{{item.Title}}</h2>
+      <p (click)="goto_examdetail(item.id,item)" *ngIf="item.ExamType == 2">
+        Exam Type: Online
+      </p>
+      <p (click)="goto_examdetail(item.id,item)" *ngIf="item.ExamType == 1">
+        Exam Type: Offline
+      </p>
+      <p (click)="goto_examdetail(item.id,item)">
+        Start date:{{item.StartDate}} {{item.SDate}}
+      </p>
+      <!-- <p>start</p> -->
+      
+      <!-- <button item-right style="font-size: 12px;background: #dcdcdc;" (click)="viewresult(item.id)">view Result</button> -->
+     
+               <button (click)="viewresult(item.id)" style="color: #6f4fca;font-size: 2.2rem;" ion-button clear item-end>
+                <ion-icon name="ios-eye-outline"></ion-icon>
+              </button>
+               <button (click)="deleteexam(item.id,index)" style="color: #e81809;font-size: 2.2rem;" ion-button clear item-end>
+                <ion-icon name="ios-trash-outline"></ion-icon>
+              </button>
+    </ion-item>
+    <p style="text-align: center;" *ngIf="Isexamlist">No Exam found</p>
+    <p *ngIf="!Isexamlist" style="text-align: center;">No more examschedule found</p>
+    
+  </ion-list>
+  <ion-infinite-scroll *ngIf="loadMoreData == false" (ionInfinite)="doInfinite($event)">
+      <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  <ion-fab bottom right #fab>
+    <button ion-fab (click)="addexam()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

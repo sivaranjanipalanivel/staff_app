@@ -1,0 +1,149 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Add Exam</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content class="outer-content">
+  <form #examform="ngForm" novalidate>
+    <ion-list>
+      <ion-item-group>
+        <ion-item-divider color="light">Details
+        </ion-item-divider>
+        <ion-item>
+          <ion-label stacked>Exam Name <span style="color: red">*</span> </ion-label>
+          <ion-input [(ngModel)]="exam.examname" name="examname" placeholder="Exam Name" type="text" #examname="ngModel" spellcheck="false" autocapitalize="off" required></ion-input>
+        </ion-item>
+        <p ion-text [hidden]="examname.valid || submitted == false" color="danger" padding-left>
+          Exam name is required
+        </p>
+        <ion-item>
+          <ion-label floating>Exam Type <span style="color: red">*</span> </ion-label>
+          <ion-select [(ngModel)]="exam.type" [ngModelOptions]="{standalone: true}" required #type="ngModel">
+            <ion-option [value]=1>Offline</ion-option>
+            <ion-option [value]=2>Online</ion-option>
+          </ion-select>
+        </ion-item>
+        <p ion-text [hidden]="type.valid || submitted == false" color="danger" padding-left>
+          Please select Exam Type
+        </p>
+        <ion-item>
+          <ion-label floating>Branch <span style="color: red">*</span> </ion-label>
+          <ion-select [(ngModel)]="exam.branch" [ngModelOptions]="{standalone: true}" required #branch="ngModel" (ionChange)="onSelectbranch($event)">
+            <ion-option *ngFor="let branch of branches" [value]="branch.id">{{branch.name}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <p ion-text [hidden]="branch.valid || submitted == false" color="danger" padding-left>
+          Please select Branch
+        </p>
+        <ion-item>
+          <ion-label floating>Course <span style="color: red">*</span> </ion-label>
+          <ion-select [(ngModel)]="exam.course" [ngModelOptions]="{standalone: true}" required #course="ngModel" (ionChange)="onSelectChange($event)">
+            <ion-option *ngFor="let course of courses" [value]="course.id">{{course.description}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <p ion-text [hidden]="course.valid || submitted == false" color="danger" padding-left>
+          Please select Course
+        </p>
+        <ion-item>
+          <ion-label>Select All Batch </ion-label>
+          <ion-checkbox [(ngModel)]="exam.checked" [ngModelOptions]="{standalone: true}" (ionChange)="clickbatch(exam.checked)"></ion-checkbox>
+        </ion-item>
+        <ion-item *ngIf="!exam.checked">
+          <ion-label floating>Batch <span style="color: red">*</span> </ion-label>
+          <ion-select [(ngModel)]="exam.batch" [ngModelOptions]="{standalone: true}">
+            <ion-option *ngFor="let batch of Batchlist" [value]="batch.project_id">{{batch.project.name}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-label floating>Subject <span style="color: red">*</span> </ion-label>
+          <ion-select [(ngModel)]="exam.suject" [ngModelOptions]="{standalone: true}" required #suject="ngModel" (ionChange)="onSelectsubject($event)">
+            <ion-option *ngFor="let subject of subject" [value]="subject.id">{{subject.subjecttitle}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <p ion-text [hidden]="suject.valid || submitted == false" color="danger" padding-left>
+          Please select Subject
+        </p>
+        <ion-item style="border-bottom:0px">
+          <ion-label stacked>Maximum Score <span style="color: red">*</span></ion-label>
+          <ion-input [(ngModel)]="exam.maximumscore" name="maximumscore" (ngModelChange)="valuescore($event)" (keypress)="exam.maximumscore=$event.target.value" placeholder="Maximum Score" #maximumscore="ngModel" spellcheck="false" autocapitalize="off" required type="number"></ion-input>
+        </ion-item>
+        <p ion-text [hidden]="maximumscore.valid || submitted == false" color="danger" padding-left>
+          Maximum Score is required
+        </p>
+      </ion-item-group>
+      <ion-item-group>
+        <ion-item-divider color="light">Exam Schedule
+        </ion-item-divider>
+        <ion-item>
+          <ion-label stacked>Exam date<span style="color: red">*</span></ion-label>
+          <ion-input [(ngModel)]="exam.examdate" min={{today}} name="examdate" placeholder="Exam Date" #examdate="ngModel" spellcheck="false" autocapitalize="off" required type="date"></ion-input>
+        </ion-item>
+        <p ion-text [hidden]="examdate.valid || submitted == false" color="danger" padding-left>
+          Exam Date is required
+        </p>
+        <ion-item style="width:50%;float:left">
+          <ion-label stacked>Start time <span style="color: red">*</span></ion-label>
+          <ion-input [(ngModel)]="exam.starttime" name="starttime" placeholder="Start time" #starttime="ngModel" spellcheck="false" autocapitalize="off" required type="time" [ngModelOptions]="{standalone: true}"></ion-input>
+        </ion-item>
+        <p  style="float: left; width: 51%;" ion-text [hidden]="starttime.valid || submitted == false" color="danger" padding-left>
+          Start Time is required
+        </p>
+        <ion-item style="width:50%">
+          <ion-label stacked>End time <span style="color: red">*</span></ion-label>
+          <ion-input [(ngModel)]="exam.endtime" min={{exam.starttime}} name="endtime" placeholder="End time" #endtime="ngModel" spellcheck="false" autocapitalize="off" required type="time"></ion-input>
+        </ion-item>
+        <p ion-text [hidden]="endtime.valid || submitted == false" color="danger" padding-left>
+          End Time is required
+        </p>
+      </ion-item-group>
+    </ion-list>
+    <ion-item-group>
+      <ion-item-divider color="light">Question type
+      </ion-item-divider>
+      <ion-list>
+        <ion-item>
+          <ion-label floating>Criteria <span style="color: red">*</span> </ion-label>
+          <ion-select [(ngModel)]="exam.criteria" [ngModelOptions]="{standalone: true}" #criteria="ngModel" (ionChange)="onSelectCriteria($event)">
+            <ion-option *ngFor="let criteria of examcriteria" [value]="criteria.id">{{criteria.name}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <!-- <p ion-text [hidden]="criteria.valid || submitted == false" color="danger" padding-left>
+         Please select Criteria
+        </p> -->
+        <ion-item>
+          <ion-label stacked>No. of Questions <span style="color: red">*</span> </ion-label>
+          <ion-input [(ngModel)]="exam.no_of_question" name="no_of_question" (ngModelChange)="valuechange($event)" (keypress)="exam.no_of_question=$event.target.value" placeholder="No. of Question" #no_of_question="ngModel" spellcheck="false" autocapitalize="off" type="number"></ion-input>
+        </ion-item>
+        <!-- <p ion-text [hidden]="no_of_question.valid || submitted == false" color="danger" padding-left>
+         No.of Question is required
+        </p> -->
+        <ion-item>
+          <ion-label stacked>No. of Available Questions <span style="color: red">*</span> </ion-label>
+          <ion-input [(ngModel)]="exam.no_of_available_question" placeholder="No. of Available Question" [ngModelOptions]="{standalone: true}" type="number" readonly></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked>Score <span style="color: red">*</span> </ion-label>
+          <ion-input [(ngModel)]="exam.score" placeholder="Score" type="number" [ngModelOptions]="{standalone: true}" readonly></ion-input>
+        </ion-item>
+        <button ion-button color="light" round style="float: right;margin-bottom: 27px;" (click)="add_examcriteria()">Add</button>
+      </ion-list>
+      <ion-list>
+        <ion-item-group>
+          <ion-item-sliding style="    border-bottom: 1px solid #ddd;" *ngFor="let session of examcriterialist; let index=index" #slidingItem [attr.track]="session.tracks | lowercase | lettrcricle">
+            <button ion-item>
+              <h3>{{session.name}}</h3>
+              <p>No.of question: {{session.no_question}}</p>
+              <p>Score: {{session.weightage}}</p>
+              <button (click)="deleteexamcriteria(session,index)" style="color: #e81809;font-size: 2.2rem;" ion-button clear item-end>
+                <ion-icon name="ios-trash-outline"></ion-icon>
+              </button>
+            </button>
+          </ion-item-sliding>
+        </ion-item-group>
+      </ion-list>
+    </ion-item-group>
+    <div padding>
+      <button class="bcakcolor" ion-button full type="submit" (click)="save_exam(examform)">Save</button>
+    </div>
+  </form>
+</ion-content>

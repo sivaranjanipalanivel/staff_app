@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Exam Result</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-grid style="padding:0">
+    <ion-row>
+      <ion-col col-sm-6 col-12 col-md-3 *ngFor="let item of examresult" style="padding:0">
+        <ion-card>
+          <ion-list>
+            <ion-item style="    border-left: 2px solid #2196f3;">
+              <div ion-row>
+                <div ion-col>
+                  <h2 style="text-transform: capitalize; "> {{item.Studentname}}</h2>
+                </div>
+                <div ion-col>
+                  <button style="float: right;background: #dcdcdc;font-size: 14px;">Total Marks: {{item.TotalMarks}}</button>
+                </div>
+              </div>
+              <div ion-row>
+                <div ion-col>
+                  <p>Total Attempt: {{item.TotalWrongAnswers + item.TotalCorrectAnswers}}</p>
+                </div>
+                <div ion-col>
+                  <p style="float: right">Rank: {{item.Rank}}</p>
+                </div>
+              </div>
+              <div ion-row>
+                <div ion-col>
+                  <p>Total Wrong: {{item.TotalWrongAnswers}}</p>
+                </div>
+                <div ion-col>
+                  <p style="float: right">Total Correct: {{item.TotalCorrectAnswers}}</p>
+                </div>
+              </div>
+            </ion-item>
+          </ion-list>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <p style="text-align: center;" *ngIf="Isexamresult">No Exam Result found</p>
+</ion-content>

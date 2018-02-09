@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-navbar danger class="bcakcolor">
+    <ion-title>Student List</ion-title>
+  </ion-navbar>
+  <ion-segment>
+    <ion-searchbar color="danger" [(ngModel)]="queryText" [formControl]="searchControl" (ionInput)="searchstudent()" placeholder="Enter Search Key word">
+    </ion-searchbar>
+   <!--  <span style="width: 80px">
+          <button ion-button style="color: black;width: 70px; height: 40px;background: white;    font-size: 12px;" (click)="searchstudent()">
+           Search
+        </button>
+        </span> -->
+  </ion-segment>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-item-group>
+      <ion-item-sliding style="    border-bottom: 1px solid #ddd;" *ngFor="let session of Studentlist" #slidingItem [attr.track]="session.tracks | lowercase | lettrcricle">
+        <button ion-item (click)="goToStudentDetail(session)">
+          <p style="color: #2196f3;" item-end>STU0000{{session.userid}}</p>
+          <h3>{{session.company}}</h3>
+          <p>{{session.phonenumber}}</p>
+          <p *ngIf="session.gender == 1">Male</p>
+          <p *ngIf="session.gender == 2">Female </p>
+        </button>
+      </ion-item-sliding>
+    </ion-item-group>
+    <p *ngIf="Studentlist == 0" style="text-align: center;">No Student found</p>
+  </ion-list>
+</ion-content>

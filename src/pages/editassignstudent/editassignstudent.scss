@@ -1,0 +1,37 @@
+page-editassignstudent {
+.v455{
+    padding-left: 18px;
+    font-size: 15px;
+    height: 38px;
+    color: #212121;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    margin-top: 7px;
+    border-radius: 4px;
+}
+.v166 {
+    width: 100%;    
+    border-radius: 4px;
+}
+
+.select {
+    padding-left: 18px;
+    font-size: 15px;
+    height: 38px;
+    color: #949494;
+    width: 90%;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+    margin-top: 7px;
+    border-radius: 4px;
+}
+// .label-md[floating]{
+//     color:#6f4fca;
+// }
+
+.item-input-has-focus .label-md[floating], .input-has-focus .label-md[floating], .item-input-has-value .label-md[floating], .input-has-value .label-md[floating]{
+    color:#6f4fca;
+}
+
+}

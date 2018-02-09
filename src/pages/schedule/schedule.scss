@@ -1,0 +1,108 @@
+$categories: (
+ ionic: color($colors, primary),
+ angular: #AC282B,
+ communication: #8E8D93,
+ tooling: #FE4C52,
+ services: #FD8B2D,
+ design: #FED035,
+ workshop: #69BB7B,
+ food: #3BC7C4,
+ documentation: #B16BE3,
+ navigation: #6600CC,
+);
+
+@function auxiliary-categories() {
+  @return map-remove($categories);
+}
+
+page-schedule {
+  @each $track, $value in auxiliary-categories() {
+   ion-item-sliding[track=#{$track}] ion-label {
+     border-left: 2px solid $value;
+     padding-left: 10px;
+   }
+  }
+//   .toolbar-background-md {
+//     border-color: #b2b2b2;
+//     background: #2196f3;
+// }
+.segment-md {
+  color:#fff;
+  background: #6f4fca;
+}
+.segment-md .segment-button.segment-activated {
+  border-color: #fff;
+  color:#fff;
+}
+.segment-md .segment-button{
+      color:#fff; 
+}
+.calendar-controls ion-col[width-25] button {
+  margin-top: 20% !important;
+}
+
+.calendar-row {
+  max-height: 40px;
+
+  .calendar-col {
+    padding: 0px;
+    margin: 5px;
+
+    button {
+      max-height: 32px;
+    }
+  }
+}
+
+.calendar-week-day {
+  max-width: 15%;
+}
+
+.calendar-day {
+  font-size: 1.3em;
+}
+
+.selected {
+  background-color: #30d05f !important;
+  color: white;
+}
+
+ .present {
+  background: tomato !important;
+  color: #fff;
+  border:none;
+}
+
+.hasEvents {
+  border-bottom: 2px solid red;
+}
+
+.selectedMonthLabel {
+  text-transform: capitalize;
+  margin-bottom: 0px;
+}
+
+.button-clear-md{
+        color: #6f4fca;
+  }
+
+ion-item .dot {
+  height: 10px;
+  display: inline-block;
+  width: 10px;
+  background-color: tomato;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+.v_74 {text-align: center;}
+.v_75 {font-size: 25px;
+  font-weight: bold}
+
+.v_76 {
+  border-right: 1px solid #b9b5b5;
+}
+.button-outline-md{
+      border-color: #6f4fca;
+    color: #6f4fca;
+}
+}

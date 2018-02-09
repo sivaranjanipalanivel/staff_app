@@ -1,0 +1,35 @@
+page-studentview {
+.segment-md {
+    color:#fff;
+    background: #303F9F;
+}
+.segment-md .segment-button.segment-activated {
+    border-color: #fff;
+    color:#fff;
+}
+.segment-md .segment-button{
+        color:#fff; 
+}
+ion-col.paddingcol{
+padding-top: 10px !important; 
+padding-bottom: 0px !important;
+padding-left: 20px !important; 
+padding-right: 1px !important;
+}
+
+ion-row.border{
+  border-bottom: 1px solid #ddd
+}
+.toolbar-md{
+	    padding: 0px;
+    min-height: 50px;
+}
+.toolbar-background {
+    background: #303F9F;
+  
+  }
+  // .item-md-light, .item-divider-md-light{
+  //   color: #fff;
+  //   background-color: #313f9f;
+  // }
+}

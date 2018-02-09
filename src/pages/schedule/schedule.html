@@ -1,0 +1,159 @@
+<ion-header>
+  <ion-navbar no-border-bottom>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Schedule</ion-title>
+  </ion-navbar>
+  <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
+    <ion-segment-button value="calendar" (click)="calendar()">
+      Schedule
+    </ion-segment-button>
+    <ion-segment-button value="Today">
+      Today
+    </ion-segment-button>
+    <ion-segment-button value="Tomorrow" (click)="tomorrow()">
+      Tomorrow
+    </ion-segment-button>
+    <ion-segment-button value="week" (click)="week()">
+      This week
+    </ion-segment-button>
+  </ion-segment>
+</ion-header>
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <div [ngSwitch]="segment">
+    <div class="calendar-container" style="border-bottom: 1px solid #ddd" *ngSwitchCase="'calendar'">
+      <ion-grid>
+        <ion-row class="calendar-controls">
+          <ion-col width-25 text-left>
+            <button ion-button icon-only clear (click)="previousMonth()">
+              <ion-icon name="arrow-back"></ion-icon>
+            </button>
+          </ion-col>
+          <ion-col width-50 text-center class="selectedDateLabel">
+            <h5 class="selectedMonthLabel">{{ currentDate | date:'MMMM yyyy' }}</h5>
+            <button *ngIf="showTodayButton" (click)="setToday()" ion-button small outline>{{ todayText }}</button>
+          </ion-col>
+          <ion-col width-25 text-right>
+            <button ion-button icon-only clear (click)="nextMonth()">
+              <ion-icon name="arrow-forward"></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
+        <ion-row class="calendar-weekDays">
+          <ion-col text-center class="calendar-week-day">
+            {{ weekDays[0] }}
+          </ion-col>
+          <ion-col text-center class="calendar-week-day">
+            {{ weekDays[1] }}
+          </ion-col>
+          <ion-col text-center class="calendar-week-day">
+            {{ weekDays[2] }}
+          </ion-col>
+          <ion-col text-center class="calendar-week-day">
+            {{ weekDays[3] }}
+          </ion-col>
+          <ion-col text-center class="calendar-week-day">
+            {{ weekDays[4] }}
+          </ion-col>
+          <ion-col text-center class="calendar-week-day">
+            {{ weekDays[5] }}
+          </ion-col>
+          <ion-col text-center class="calendar-week-day">
+            {{ weekDays[6] }}
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-grid (swipeleft)="useSwipe && nextMonth()" (swiperight)="useSwipe && previousMonth()">
+        <ion-row *ngFor="let row of rows" class="calendar-row">
+          <ion-col *ngFor="let day of row; let i = index" text-center class="calendar-col">
+            <button no-padding block class="calendar-day" *ngIf="day" ion-button clear (click)="dateClicked(day)" id="calendar-day-{{day}}" [disabled]="pastDates.indexOf(day) > -1 || weekDaysToDisable.indexOf(i) > -1 || daysToDisable.indexOf(day) > -1">
+              {{ day }}
+            </button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+      <ion-list *ngIf="showEventsList">
+        <button text-wrap ion-item *ngFor="let event of todayEvents" (click)="eventClicked(event)">
+          {{ event.title }}
+          <ion-icon name="arrow-forward" hideWhen="ios" item-right></ion-icon>
+        </button>
+      </ion-list>
+      <h5 style="text-align: center;font-size: 15px;">Schedules</h5>
+      <ion-item-group>
+        <ion-item-sliding style="border-bottom: 1px solid #ddd" *ngFor="let note of notes" #slidingItem [attr.track]="note.tracks | lowercase | lettrcricle" (click)="goto_batchDetail(note)">
+          <button ion-item>
+            <h3>{{note.name}} 
+                                  <span style="float: right; background: #2196f3; color: white;    font-size: 12px; padding: 3px;" *ngIf="note.finished">Completed</span> 
+                                  <span style="float: right; background: #737272; color: white;     font-size: 12px;padding: 3px;" *ngIf="!note.finished">Pending</span>
+                                </h3>
+            <p>Batch: {{note.Batch.name}} </p>
+            <p>
+              {{note.start_time | date:'shortTime'}} &mdash; {{note.end_time | date:'shortTime'}}
+            </p>
+          </button>
+        </ion-item-sliding>
+      </ion-item-group>
+    </div>
+    <ion-list *ngSwitchCase="'Today'" #scheduleList>
+      <ion-item-group>
+        <ion-item-sliding style="border-bottom: 1px solid #ddd" *ngFor="let session of schedule" #slidingItem [attr.track]="session.tracks | lowercase | lettrcricle" (click)="goto_batchDetail(session)">
+          <button ion-item>
+            <h3>{{session.name}} 
+            <span style="float: right; background: #2196f3; color: white;    font-size: 12px; padding: 3px;" *ngIf="session.finished">Completed</span> 
+            <span style="float: right; background: #737272; color: white;     font-size: 12px;padding: 3px;" *ngIf="!session.finished">Pending</span>
+          </h3>
+            <p>Batch: {{session.Batch.name}} </p>
+            <p>
+              {{session.start_time | date:'shortTime'}} &mdash; {{session.end_time | date:'shortTime'}}
+            </p>
+          </button>
+        </ion-item-sliding>
+      </ion-item-group>
+      <p style="text-align: center;" *ngIf="no_sch_today"> No Schedule assign </p>
+    </ion-list>
+    <ion-list *ngSwitchCase="'Tomorrow'" #scheduleList>
+      <ion-item-group>
+        <ion-item-sliding style="border-bottom: 1px solid #ddd" *ngFor="let session of tomorrow_schedule" #slidingItem [attr.track]="session.tracks | lowercase | lettrcricle" (click)="goto_batchDetail(session)">
+          <button ion-item>
+            <h3>{{session.name}} 
+                        <span style="float: right; background: #2196f3; color: white;    font-size: 12px; padding: 3px;" *ngIf="session.finished">Completed</span> 
+                        <span style="float: right; background: #737272; color: white;     font-size: 12px;padding: 3px;" *ngIf="!session.finished">Pending</span>
+                      </h3>
+            <p>Batch: {{session.Batch.name}} </p>
+            <p>
+              {{session.start_time | date:'shortTime'}} &mdash; {{session.end_time | date:'shortTime'}}
+            </p>
+          </button>
+        </ion-item-sliding>
+      </ion-item-group>
+      <p style="text-align: center;" *ngIf="no_sch_tom"> No Schedule assign </p>
+    </ion-list>
+    <ion-list *ngSwitchCase="'week'" #scheduleList>
+      <ion-item-group>
+        <ion-item-sliding style="border-bottom: 1px solid #ddd" *ngFor="let session of week_schedule" #slidingItem [attr.track]="session.tracks | lowercase | lettrcricle" (click)="goto_batchDetail(session)">
+          <button ion-item>
+            <h3>{{session.name}} 
+                                    <span style="float: right; background: #2196f3; color: white;    font-size: 12px; padding: 3px;" *ngIf="session.finished">Completed</span> 
+                                    <span style="float: right; background: #737272; color: white;     font-size: 12px;padding: 3px;" *ngIf="!session.finished">Pending</span>
+                                  </h3>
+            <p>Batch: {{session.Batch.name}} </p>
+            <p>Date : {{session.dateadded | date: 'longDate'}} </p>
+            <p>
+              {{session.start_time | date:'shortTime'}} &mdash; {{session.end_time | date:'shortTime'}}
+            </p>
+          </button>
+        </ion-item-sliding>
+      </ion-item-group>
+      <p style="text-align: center;" *ngIf="no_sch_week"> No Schedule assign </p>
+    </ion-list>
+  </div>
+  <!-- <ion-fab bottom right #fab>
+    <button ion-fab (click)="addschedule()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+  </ion-fab> -->
+</ion-content>
