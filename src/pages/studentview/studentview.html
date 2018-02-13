@@ -5,10 +5,10 @@
   <ion-list no-lines style="margin-bottom: 0;">
     <ion-item style="    background: #303F9F; color: white;">
       <ion-thumbnail item-end>
-        <img src="http://rgr.tridotstech.com/uploads/profiles/{{userid}}/{{Profileimage}}" *ngIf="Profileimage">
+        <img src="" *ngIf="Profileimage">
       </ion-thumbnail>
-      <h2 style="font-size:24px">{{firstname}} {{middle_name}} {{lastname}}</h2>
-      <p style="color:white">{{batchname.name}}</p>
+      <h2 style="font-size:24px">{{studentdetail.first_name}} {{studentdetail.middle_name}} {{studentdetail.last_name}}</h2>
+      <p style="color:white">{{studentacademicprofile.student_batch_name}}</p>
       <p style="color:white">{{branchname.name}}</p>
     </ion-item>
   </ion-list>
@@ -30,7 +30,7 @@
 <ion-content [ngSwitch]="stu" style="    margin-top: 15px;">
   <div [ngSwitch]="pet" *ngSwitchCase="'students'">
     <div *ngSwitchCase="'Student'">
-      <ion-row *ngIf="studentprofile" class="border">
+      <ion-row *ngIf="studentdetail" class="border">
         <ion-col col-5 class="paddingcol">
           <p style="color: #555; font-size: 14px;  margin-top: 6px;">Firstname </p>
         </ion-col>
@@ -38,11 +38,11 @@
           <p style="font-size: 14px;  margin-top: 6px;">-</p>
         </ion-col>
         <ion-col col-6 class="paddingcol">
-          <p style="    padding-right: 5px; padding-left: 0px; font-size: 14px; margin-top: 6px;">{{studentprofile.firstname}} </p>
+          <p style="    padding-right: 5px; padding-left: 0px; font-size: 14px; margin-top: 6px;">{{studentdetail.first_name}} </p>
         </ion-col>
       </ion-row>
-      <div *ngIf="studentprofile">
-        <ion-row class="border" *ngIf="studentprofile.user.middle_name">
+    <!--   <div *ngIf="studentdetail">
+        <ion-row class="border" *ngIf="studentdetail.middle_name">
           <ion-col col-5 class="paddingcol">
             <p style="color: #555; font-size: 14px; margin-top: 3px;">Middlename</p>
           </ion-col>
@@ -50,11 +50,11 @@
             <p style="font-size: 14px;  margin-top: 6px;">-</p>
           </ion-col>
           <ion-col col-6 class="paddingcol">
-            <p style="padding-right: 5px;    padding-left: 0px; font-size: 14px; margin-top: 3px;">{{studentprofile.user.middle_name}} </p>
+            <p style="padding-right: 5px;    padding-left: 0px; font-size: 14px; margin-top: 3px;">{{studentdetail.middle_name}} </p>
           </ion-col>
         </ion-row>
-      </div>
-      <ion-row *ngIf="studentprofile" class="border">
+      </div> -->
+      <ion-row *ngIf="studentdetail" class="border">
         <ion-col col-5 class="paddingcol">
           <p style=" color: #555; font-size: 14px; margin-top: 3px;">Lastname </p>
         </ion-col>
@@ -62,10 +62,10 @@
           <p style="font-size: 14px;  margin-top: 6px;">-</p>
         </ion-col>
         <ion-col col-6 class="paddingcol">
-          <p style="padding-right: 5px;    padding-left: 0px; font-size: 14px; margin-top: 3px;">{{studentprofile.lastname}} </p>
+          <p style="padding-right: 5px;    padding-left: 0px; font-size: 14px; margin-top: 3px;">{{studentdetail.last_name}} </p>
         </ion-col>
       </ion-row>
-      <ion-row *ngIf="studentprofile" class="border">
+      <ion-row *ngIf="studentacademicprofile" class="border">
         <ion-col col-5 class="paddingcol">
           <p style="    color: #555; font-size: 14px; margin-top: 3px;">Application Date </p>
         </ion-col>
@@ -73,7 +73,7 @@
           <p style="font-size: 14px;  margin-top: 6px;">-</p>
         </ion-col>
         <ion-col col-6 class="paddingcol">
-          <p style="padding-right: 5px;    padding-left: 0px; font-size: 14px; margin-top: 3px;">{{studentprofile.app_date1}} </p>
+          <p style="padding-right: 5px;    padding-left: 0px; font-size: 14px; margin-top: 3px;">{{studentacademicprofile.enrollment_date}} </p>
         </ion-col>
       </ion-row>
       <ion-row *ngIf="branchname" class="border">
@@ -87,7 +87,7 @@
           <p style=" padding-right: 5px;   padding-left: 0px; font-size: 14px; margin-top: 3px;">{{branchname.name}} </p>
         </ion-col>
       </ion-row>
-      <ion-row *ngIf="academicyear" class="border">
+      <ion-row *ngIf="studentacademicprofile" class="border">
         <ion-col col-5 class="paddingcol">
           <p style="    color: #555; font-size: 14px;  margin-top: 3px;">Academic Year </p>
         </ion-col>
@@ -95,10 +95,10 @@
           <p style="font-size: 14px;  margin-top: 6px;">-</p>
         </ion-col>
         <ion-col col-6 class="paddingcol">
-          <p style=" padding-right: 5px;   padding-left: 0px; font-size: 14px; margin-top: 3px;">{{academicyear.academic_year_name}} </p>
+          <p style=" padding-right: 5px;   padding-left: 0px; font-size: 14px; margin-top: 3px;">{{studentacademicprofile.academic_year}} </p>
         </ion-col>
       </ion-row>
-      <ion-row *ngIf="degreename" class="border">
+      <ion-row  *ngFor="let course of coursedetails" class="border">
         <ion-col col-5 class="paddingcol">
           <p style="    color: #555; font-size: 14px; margin-top: 6px;">Course </p>
         </ion-col>
@@ -106,10 +106,10 @@
           <p style="font-size: 14px;  margin-top: 6px;">-</p>
         </ion-col>
         <ion-col col-6 class="paddingcol">
-          <p style="padding-right: 5px;    padding-left: 0px; font-size: 14px; margin-top: 6px;">{{degreename.name}} </p>
+          <p style="padding-right: 5px;    padding-left: 0px; font-size: 14px; margin-top: 6px;">{{course.course_name}} </p>
         </ion-col>
       </ion-row>
-      <ion-row *ngIf="batchname" class="border">
+      <ion-row *ngIf="studentacademicprofile" class="border">
         <ion-col col-5 class="paddingcol">
           <p style="color: #555; font-size: 14px; margin-top: 6px;">Batch </p>
         </ion-col>
@@ -117,50 +117,47 @@
           <p style="font-size: 14px;  margin-top: 6px;">-</p>
         </ion-col>
         <ion-col col-6 class="paddingcol">
-          <p style=" padding-right: 5px;   padding-left: 0px; font-size: 14px; margin-top: 6px;">{{batchname.name}} </p>
+          <p style=" padding-right: 5px;   padding-left: 0px; font-size: 14px; margin-top: 6px;">{{studentacademicprofile.student_batch_name}} </p>
         </ion-col>
       </ion-row>
     </div>
     <div *ngSwitchCase="'Personal'">
-      <ion-row *ngIf="studentprofile" class="">
+      <ion-row *ngIf="studentdetail" class="">
         <ion-list no-lines>
           <ion-item>
             <ion-icon name="person" item-start style="    color: #444444;"></ion-icon>
-            <p style="padding-right: 5px;padding-left: 0px;color: black; font-size: 16px; margin-top: 3px;" *ngIf="studentprofile.user.gender == 1">Male</p>
-            <p style="padding-right: 5px;padding-left: 0px; color: black;font-size: 16px; margin-top: 3px;" *ngIf="studentprofile.user.gender == 2">Female </p>
+            <p style="padding-right: 5px;padding-left: 0px;color: black; font-size: 16px; margin-top: 3px;">{{studentdetail.gender}}</p>
           </ion-item>
           <ion-item>
             <ion-icon name="call" item-start style="    color: #444444;"></ion-icon>
-            {{studentprofile.user.mobile}} | {{studentprofile.user.phonenumber}}
+            {{studentdetail.student_mobile_number}}
           </ion-item>
           <ion-item>
             <ion-icon name="mail" item-start style="    color: #444444;"></ion-icon>
-            {{studentprofile.email}}
+            {{studentdetail.student_email_id}}
           </ion-item>
           <ion-item>
             <ion-icon name="md-calendar" item-start style="    color: #444444;"></ion-icon>
-            {{studentprofile.date_of_birth}}
-          </ion-item>
-          <ion-item *ngIf="studentprofile.user.birth_place">
-            <ion-icon name="pin" item-start style="    color: #444444;"></ion-icon>
-            {{studentprofile.user.birth_place}}
+            {{studentdetail.date_of_birth}}
           </ion-item>
         </ion-list>
       </ion-row>
     </div>
     <div *ngSwitchCase="'Address'">
       <h3 style="    color: #303F9F; width: 100%; font-size: 17px; padding: 12px; font-weight: 400; margin: 0;">Addresses</h3>
-      <ion-list no-lines>
+      <ion-list *ngIf="studentprofile" no-lines>
         <ion-item style="    border-left: 3px solid #303f9f;    margin-bottom: 13px;">
           <h2 style="color: #303f9f; font-size: 15px;">Permanent Address</h2>
-          <h3>{{studentprofile.user.billing_street}}</h3>
-          <p>{{studentprofile.user.billing_state}} - {{studentprofile.user.billing_zip}}</p>
+          <h3>{{studentprofile.address_line_1}},{{studentprofile.address_line_2}}</h3>
+          <p>{{studentprofile.city}}</p>
+          <p>{{studentprofile.state}}-{{studentprofile.pincode}}</p>
           <p></p>
         </ion-item>
         <ion-item style="    border-left: 3px solid #303f9f;">
           <h2 style="color: #303f9f; font-size: 15px;">Communication Address</h2>
-          <h3>{{studentprofile.user.shipping_street}}</h3>
-          <p>{{studentprofile.user.shipping_state}} - {{studentprofile.user.shipping_zip}}</p>
+          <h3>{{studentprofile.address_line_1}},{{studentprofile.address_line_2}}</h3>
+          <p>{{studentprofile.city}},</p>
+          <p>{{studentprofile.state}}-{{studentprofile.pincode}}</p>
           <p></p>
         </ion-item>
       </ion-list>
@@ -170,7 +167,7 @@
       <ion-list no-lines *ngFor="let gra of guardians">
         <ion-item style="">
           <ion-icon name="person" item-start></ion-icon>
-          <h2 style="color: #303f9f; font-size: 16px;"> {{gra.name}}  -  {{gra.relation}}</h2>
+          <h2 style="color: #303f9f; font-size: 16px;"> {{gra.guardian_name}}  -  {{gra.relation}}</h2>
           <p>{{gra.mobile_no}}</p>
           <p>{{gra.g_email}}</p>
           <p></p>

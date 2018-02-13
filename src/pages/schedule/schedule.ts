@@ -86,7 +86,7 @@ export class SchedulePage {
     this.notes=[];
     
     this.dbserviceProvider.getadminschedule(localStorage.staffId)
-      .then(data => {
+      .subscribe(data => {
         let sched: any = data;
         for (var i = 0; i < sched.length; ++i) {
           var d = sched[i].name;

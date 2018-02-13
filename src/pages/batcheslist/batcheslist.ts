@@ -25,11 +25,13 @@ export class BatcheslistPage {
      content: 'Loading Please Wait...'
   });
     loading.present();
-    console.log(name);
-    this.dbserviceProvider.getCurrentbatchDetail(name)
-          .then(data => {
+    console.log(localStorage.inst_name);
+
+    this.dbserviceProvider.getstaffbatches(localStorage.inst_name)
+          .subscribe(data => {
             console.log(data);
-            this.Batcheslist=data;
+            console.log(data.data);
+            this.Batcheslist=data.data;
             if(this.Batcheslist.length ==0)
             {
             this.Isbatches=true

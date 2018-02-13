@@ -102,28 +102,11 @@ presentLoadingDefault() {
                 
                   localStorage.currusername=this.login.username;
                   localStorage.currpassword=this.login.password;
-                  // console.log(localStorage.currusername)
-                  // console.log(localStorage.currpassword)
-                
-                  // this.dbserviceProvider.getCurrentinstructorDetail(data.data[0].user_id).subscribe(
-                  //   data1 => {
-                  //     console.log(data1);
-                  // this.storage.set('logged_user_details', data1.data[0].instructor);
-                       //localStorage.staffbatch=data1.data[0].parent;
-                       // localStorage.empname=data1.data[0].instructor;
-                  // this.dbserviceProvider.getCurrentbatchDetail(data1.data[0].parent).subscribe(
-                  //   data2 => {
-                  //     console.log(data2);
-                  // this.storage.set('logged_instructor_details', data2.data);
-                 
-                  //      localStorage.batchstart=data2.data[0].expected_start_date;
-                  //      localStorage.batchend=data2.data[0].expected_end_date;
-                  //      localStorage.term=data2.data[0].academic_term;
-                  //      localStorage.year=data2.data[0].academic_year;
-                  //      localStorage.program=data2.data[0].program;
-                  //      localStorage.section=data2.data[0].section;
-                  //      localStorage.status=data2.data[0].status;
-                  //      localStorage.course=data2.data[0].course;
+                 this.dbserviceProvider.getbatch(data.data[0].name).subscribe(
+                data => {
+                  
+                  console.log(data.data);
+  localStorage.inst_name=data.data[0].instructor_name;
                       let loading = this.loadingCtrl.create({
                   spinner: 'bubbles',
                   content: 'Loading Please Wait...'
@@ -147,6 +130,13 @@ presentLoadingDefault() {
                   //     }
                   // )
              
+              },
+                err => {
+                  console.error(err);
+                  alert('Check Email/Password');
+                  loader.dismiss();
+                }
+              )
                   loader.dismiss();
                 },
                 err => {

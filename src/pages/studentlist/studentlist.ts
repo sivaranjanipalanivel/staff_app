@@ -28,12 +28,10 @@ export class StudentlistPage {
   }
 
   filterItems(searchTerm){
-    // if (searchTerm && searchTerm.trim() != '') {
         return this.Studentsearchlist.filter((item) => {
             return item.lowerletter.indexOf(searchTerm.toLowerCase()) > -1;
         });         
-      // }
-    }
+        }
 
   getstudentlist(){
     this.dbserviceProvider.getstudents()
@@ -45,22 +43,6 @@ export class StudentlistPage {
         console.log(JSON.stringify(error.json()));        
       });
   }
-
-  // searchstudent(){
-  //   var data={
-  //     "key_word":this.queryText
-  //   }
-  //   this.dbserviceProvider.searchkeyword(data)
-  //     .then(data => {
-  //       if(data !="No Student Found"){
-  //       this.Studentlist=data;
-  //       }
-  //     }, error => {
-  //       console.log(JSON.stringify(error.json()));        
-  //     });
-  // }
-
-
 
   goToStudentDetail(item){
     this.navCtrl.push(StudentviewPage, { student: item, pet: "fee"})

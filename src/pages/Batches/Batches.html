@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar no-border-bottom color="danger">
-    <ion-title>{{batches.project.name}}</ion-title>
+    <ion-title>{{batches.parent}}</ion-title>
   </ion-navbar>
   <ion-segment [(ngModel)]="segment">
     <ion-segment-button value="Students">
@@ -20,13 +20,12 @@
   </ion-refresher>
   <ion-list *ngSwitchCase="'Students'" #scheduleList>
     <ion-item-group>
-      <ion-item-sliding style="    border-bottom: 1px solid #ddd;" *ngFor="let session of Studentlist" #slidingItem [attr.track]="session.tracks | lowercase | lettrcricle">
-        <button ion-item (click)="goToStudentDetail(session)">
-          <p style="color: #2196f3;" item-end>STU0000{{session.userid}}</p>
-          <h3>{{session.company}}</h3>
-          <p>{{session.phonenumber}}</p>
-          <p *ngIf="session.gender == 1">Male</p>
-          <p *ngIf="session.gender == 2">Female </p>
+      <ion-item-sliding style="    border-bottom: 1px solid #ddd;" *ngFor="let session of Studentlist">
+        <button ion-item (click)="goToStudentDetail(session[0])">
+          <p style="color: #2196f3;" item-end>{{session[0].name}}</p>
+          <h3>{{session[0].title}}</h3>
+          <p>{{session[0].student_mobile_number}}</p>
+          <p>{{session[0].gender}}</p>
         </button>
       </ion-item-sliding>
     </ion-item-group>

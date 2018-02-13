@@ -43,8 +43,8 @@ month[11] = "Dec";
 @Injectable()
 export class DBserviceProvider {
 
-private baseResource = "http://192.168.0.132:8000/api/resource/";
-private baseMethod = "http://192.168.0.132:8000/api/method/";
+private baseResource = "http://schools.tridotstech.com/api/resource/";
+private baseMethod = "http://schools.tridotstech.com/api/method/";
 headers;
 options;
 
@@ -99,9 +99,19 @@ options;
     let endpoint = 'Student Group Instructor?filters=[["owner","=","'+name+'"]]&fields=["parent","instructor"]';
     return this.get(this.baseResource+endpoint);
   }
-  getCurrentbatchDetail(name): any {
+  getstaffbatches(name): any {
    
         let endpoint = 'Student Group Instructor?filters=[["instructor","=","'+name+'"]]&fields=["parent","instructor_name"]';
+    return this.get(this.baseResource+endpoint);
+  }
+  getstaffbatchedetail(name): any {
+   
+        let endpoint = 'Student Group Instructor?filters=[["instructor","=","'+name+'"]]&fields=["parent","instructor_name"]';
+    return this.get(this.baseResource+endpoint);
+  }
+  getbatch(name): any {
+   
+        let endpoint = 'Instructor?filters=[["employee","=","'+name+'"]]&fields=["employee","instructor_name"]';
     return this.get(this.baseResource+endpoint);
   }
   getcourseschedule(): any {
@@ -109,8 +119,17 @@ options;
     let endpoint = 'Course Schedule';
     return this.get(this.baseResource+endpoint);
   }
-
-  // postdiscussions(data): any{
+  getstudentsfrombatch(name): any {
+   
+    let endpoint = 'Student Group Student?filters=[["parent","=","'+name+'"]]&fields=["student_name","group_roll_number","student"]';
+    return this.get(this.baseResource+endpoint);
+  }
+  getdetail(name): any {
+   
+    let endpoint = 'Student?filters=[["name","=","'+name+'"]]&fields=["first_name","last_name","middle_name","title","gender","student_mobile_number","student_email_id","date_of_birth","name"]';
+    return this.get(this.baseResource+endpoint);
+  }
+ // postdiscussions(data): any{
 
   //     let endpoint = 'Batch Discussion';
   //   return this.http.post(this.baseResource+endpoint,data);
@@ -126,12 +145,16 @@ options;
   //   return this.get(this.baseResource+endpoint);
   // }
 
-  // getdiscusslist(data): any{
+  getdiscusslist(data): any{
 
-  //     let endpoint = 'Batch Discussion?filters=[["project","=","'+data+'"]]';
-  //   return this.get(this.baseResource+endpoint);
-  // }
+      let endpoint = 'Batch Discussion?filters=[["project","=","'+data+'"]]';
+    return this.get(this.baseResource+endpoint);
+  }
 
+getadminschedule(id) {
+   let endpoint = 'Course Schedule';
+    return this.get(this.baseResource+endpoint);
+  }
   // getStudents(data): any{
   //     let endpoint = 'Program Enrollment?filters=[["project","=","'+data+'"]]';
   //   return this.get(this.baseResource+endpoint); 
@@ -413,14 +436,30 @@ options;
     });
   }
 
-  getcontact(id) {
-    return new Promise(resolve => {
-      this.http.get(globalUrl + 'tblcontacts?filter[include]=user&filter[where][userid]=' + id)
-        .map(res => res.json())
-        .subscribe(data => {
-          resolve(data);
-        });
-    });
+ getacademicdetails(name) {
+    let endpoint = 'Program Enrollment?filters=[["student","=","'+name+'"]]&fields=["program","academic_year","academic_term","student_batch_name","enrollment_date"]';
+    return this.get(this.baseResource+endpoint);
+  }
+
+getcoursedetails(name) {
+    let endpoint = 'Program Enrollment Course?filters=[["parent","=","'+name+'"]]&fields=["course","course_name"]';
+    return this.get(this.baseResource+endpoint);
+  }
+
+
+  getcontact(name) {
+    let endpoint = 'Student?filters=[["name","=","'+name+'"]]&fields=["name","address_line_1","address_line_2","state","city","pincode"]';
+    return this.get(this.baseResource+endpoint);
+  }
+
+  getgaurdian(name){
+    let endpoint = 'Student Guardian?filters=[["parent","=","'+name+'"]]&fields=["guardian","relation"]';
+    return this.get(this.baseResource+endpoint);
+  }
+
+  getgaurdiandetails(name){
+    let endpoint = 'Guardian?filters=[["parent","=","'+name+'"]]&fields=["guardian_name","mobile_number","email_address"]';
+    return this.get(this.baseResource+endpoint);
   }
 
   getcourse(id) {
@@ -466,46 +505,33 @@ options;
 
 
   getinvoicelist(id) {
-    return new Promise(resolve => {
-       // this.http.get(globalUrl+'tblfee_schedules?filter[where][user_id]='+id+'&filter[include]=semester&filter[include]=invoice')
-       this.http.get(globalUrl+'tblacademic_terms?filter={"include":[{"relation":"fees","scope":{"where":{"user_id":'+id+'},"include":[{"relation":"invoice"}]}}]}')
-      .map(res => res.json())
-      .subscribe(data => {
-        let invoice=[];
-        for (var i = 0; i < data.length; ++i) { 
-             if(data[i].fees.length != 0)
-         {
-            invoice.push(data[i]);
-         }     
-            }
-        resolve(invoice); 
-      });
-    });
+    let endpoint = 'Student?filters=[["student","=","'+id+'"]]';
+    return this.get(this.baseResource+endpoint);
   }
 
-  getstaffbatches(id) {
-    return new Promise(resolve => {
-      this.http.get(globalUrl + 'tblprojectmembers?filter[include]=project&filter[where][staff_id]=' + id)
-        .map(res => res.json())
-        .subscribe(data => {
-          let batch = [];
-          for (var i = 0; i < data.length; ++i) {
-            if (data[i].project != '' && data[i].project != undefined) {
-              var d = data[i].project.name;
-              d = d.replace(" ", "");
-              data[i].letter = d[0];
-              data[i].color = "4cb050";
-              var t = new Date(data[i].project.start_date);
-              data[i].sdate = this.getPaddedComp(month[t.getMonth()]) + " " + this.getPaddedComp(t.getDate()) + ", " + t.getFullYear();
-              var t2 = new Date(data[i].project.deadline);
-              data[i].edate = this.getPaddedComp(month[t2.getMonth()]) + " " + this.getPaddedComp(t2.getDate()) + ", " + t2.getFullYear();
-              batch.push(data[i]);
-            }
-          }
-          resolve(batch);
-        });
-    });
-  }
+  // getstaffbatches(id) {
+  //   return new Promise(resolve => {
+  //     this.http.get(globalUrl + 'tblprojectmembers?filter[include]=project&filter[where][staff_id]=' + id)
+  //       .map(res => res.json())
+  //       .subscribe(data => {
+  //         let batch = [];
+  //         for (var i = 0; i < data.length; ++i) {
+  //           if (data[i].project != '' && data[i].project != undefined) {
+  //             var d = data[i].project.name;
+  //             d = d.replace(" ", "");
+  //             data[i].letter = d[0];
+  //             data[i].color = "4cb050";
+  //             var t = new Date(data[i].project.start_date);
+  //             data[i].sdate = this.getPaddedComp(month[t.getMonth()]) + " " + this.getPaddedComp(t.getDate()) + ", " + t.getFullYear();
+  //             var t2 = new Date(data[i].project.deadline);
+  //             data[i].edate = this.getPaddedComp(month[t2.getMonth()]) + " " + this.getPaddedComp(t2.getDate()) + ", " + t2.getFullYear();
+  //             batch.push(data[i]);
+  //           }
+  //         }
+  //         resolve(batch);
+  //       });
+  //   });
+  // }
   getstaffbatcheslist(id) {
 
     
@@ -678,15 +704,7 @@ options;
         });
     });
   }
-  getadminschedule(id) {
-    return new Promise(resolve => {
-      this.http.get(globalUrl + 'tblstaffschedules?filter[include]=Batch&filter[where][staff_id]=' + id+'&filter[where][dateadded]='+date)
-        .map(res => res.json())
-        .subscribe(data => {
-          resolve(data);
-        });
-    });
-  }
+  
   getdashadminschedule(id) {
     return new Promise(resolve => {
       this.http.get(globalUrl + 'tblstaffschedules?filter[include]=Batch&filter[where][finished]='+0+'&filter[where][staff_id]=' + id+'&filter[where][dateadded]='+date+'&filter[limit]='+4)
@@ -852,24 +870,24 @@ examschedule(schedules){
     });
   }
 
-  getdiscusslist(id){
-  return new Promise(resolve => {
-    this.http.get(globalUrl+'tblprojectdiscussions?filter[where][project_id]='+id)
-      .map(res => res.json())
-      .subscribe(data => {
-        let discussion:any=[];
-        for (var i = 0; i < data.length; ++i) {
-          var d = data[i].subject;
-          d = d.replace(" ", "");
-          data[i].letter = d[0];
-          data[i].tracks = "Workshop"
-          data[i].color = "ff9801"
-          discussion.push(data[i]);
-        }
-        resolve(discussion); 
-      });
-  });
-} 
+//   getdiscusslist(id){
+//   return new Promise(resolve => {
+//     this.http.get(globalUrl+'tblprojectdiscussions?filter[where][project_id]='+id)
+//       .map(res => res.json())
+//       .subscribe(data => {
+//         let discussion:any=[];
+//         for (var i = 0; i < data.length; ++i) {
+//           var d = data[i].subject;
+//           d = d.replace(" ", "");
+//           data[i].letter = d[0];
+//           data[i].tracks = "Workshop"
+//           data[i].color = "ff9801"
+//           discussion.push(data[i]);
+//         }
+//         resolve(discussion); 
+//       });
+//   });
+// } 
 
 getassignmentlist(id){
   return new Promise(resolve => {

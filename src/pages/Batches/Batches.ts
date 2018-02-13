@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { AlertController, NavParams, App, FabContainer, ItemSliding, List, ModalController, NavController, ToastController, LoadingController, Refresher } from 'ionic-angular';
 import { UserData } from '../../providers/user-data';
+import { Storage } from '@ionic/storage';
 import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
 import { AssignmentdetailPage } from '../assignmentdetail/assignmentdetail';
 import { AddassignmentPage } from '../addassignment/addassignment';
@@ -26,6 +27,7 @@ export class BatchesPage {
   currState: any;
   batches: any;
   Studentlist: any;
+  Studentlistitem:any;
   disussionlist: any=[];
   assignment: any=[];
   discuss_flag: any;
@@ -40,7 +42,8 @@ export class BatchesPage {
     public toastCtrl: ToastController,
     public user: UserData,
     public navParams: NavParams,
-    public dbserviceProvider: DBserviceProvider
+    public dbserviceProvider: DBserviceProvider,
+    public storage: Storage
 
   ) {
     this.batches = navParams.get("detail");
@@ -74,25 +77,35 @@ export class BatchesPage {
 
   studentgrouplist() {
     this.Studentlist = [];
-    this.dbserviceProvider.getStudents(this.batches.project_id)
-      .then(data => {
-        let assignment: any = data;
-        for (var i = 0; i < assignment.length; ++i) {
-          var d = assignment[i].company;
-          d = d.replace(" ", "");
-          assignment[i].letter = d[0];
-          assignment[i].tracks = "Food"
-          assignment[i].color = "f54337"
-          this.Studentlist.push(assignment[i]);
-        }
-      }, error => {
+    this.Studentlistitem=[];
+    this.dbserviceProvider.getstudentsfrombatch(this.batches.parent)
+      .subscribe(data => {
+        console.log(data);
+        let assignment: any = data.data;
+        console.log(data.data);
+         for (var i = 0; i < assignment.length; ++i) {
+            var d = assignment[i].student;
+         this.storage.set('student_name', assignment[i].student);
+         localStorage.staffId=assignment[i].student;
+         this.dbserviceProvider.getdetail(assignment[i].student)
+      .subscribe(data => {
+        console.log(data);
+        console.log(data.data);
+       this.Studentlistitem[i] = data.data;
+ this.Studentlist.push(this.Studentlistitem[i]);
+         }, error => {
+        console.log(JSON.stringify(error.json()));
+      });
+    }
+      console.log(this.Studentlist);
+       }, error => {
         console.log(JSON.stringify(error.json()));
       });
   }
 
 
   presentFilter() {
-    let modal = this.modalCtrl.create(ScheduleFilterPage, { groupid: this.batches.project_id });
+    let modal = this.modalCtrl.create(ScheduleFilterPage, { groupid: this.batches.parent });
     modal.present();
     modal.onWillDismiss((data: any[]) => {
       if (data) {
@@ -102,7 +115,7 @@ export class BatchesPage {
   }
 
   addassignment() {
-    let modal = this.modalCtrl.create(AddassignmentPage, { groupid: this.batches.project_id });
+    let modal = this.modalCtrl.create(AddassignmentPage, { groupid: this.batches.parent });
     modal.present();
     modal.onWillDismiss((data: any[]) => {
       if (data) {
@@ -190,7 +203,7 @@ export class BatchesPage {
   }
 
   discussions() {
-     this.dbserviceProvider.getdiscusslist(this.batches.project.id)
+     this.dbserviceProvider.getdiscusslist(this.batches.parent)
           .then(data => {
             this.disussionlist=data;
          }, error => {

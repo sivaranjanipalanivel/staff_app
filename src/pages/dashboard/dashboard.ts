@@ -48,11 +48,11 @@ export class DashboardPage {
       content: 'Loading Please Wait...'
     });
 
-    loading.present();
+    // loading.present();
 
-    setTimeout(() => {
+    // setTimeout(() => {
       loading.dismiss();
-    }, 50);
+    // }, 50);
   }
   goto_batchDetail(schdule_detail) {
     this.navCtrl.push(ScheduleDetailPage, { schdule_detail: schdule_detail });
