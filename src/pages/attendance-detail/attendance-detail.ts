@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams,LoadingController,AlertController,ModalController } from 'ionic-angular';
 import { AttendancePage } from '../attendance/attendance';
 import { DBserviceProvider } from '../../providers/d-bservice/d-bservice';
+import { Storage } from '@ionic/storage';
 
 @IonicPage()
 @Component({
@@ -11,6 +12,7 @@ import { DBserviceProvider } from '../../providers/d-bservice/d-bservice';
 })
 export class AttendanceDetailPage {
 Studentlist:any;
+Studentlistitem:any;
 	isCheck:any=true;
 	batchid:any;
   batchnme:any;
@@ -21,11 +23,11 @@ Studentlist:any;
   studentvisible:any;
   today:any;
   absentStudentlist:any;
-  constructor(public dbserviceProvider: DBserviceProvider,public modalCtrl: ModalController,public alertCtrl: AlertController,public loadingCtrl: LoadingController,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public dbserviceProvider: DBserviceProvider,public modalCtrl: ModalController,public alertCtrl: AlertController,public loadingCtrl: LoadingController,public navCtrl: NavController, public navParams: NavParams,  public storage: Storage) {
   let item=this.navParams.get("item")
   console.log(item)
-  this.batchid=item.id;
-  this.batchnme=item.name;
+  this.batchid=item.parent;
+  this.batchnme=item.parent;
   var t1=new Date();
   var m1=t1.getMonth()+1;
   this.today=t1.getFullYear()+"-"+this.getPaddedComp(m1)+"-"+this.getPaddedComp(t1.getDate());
@@ -34,10 +36,12 @@ Studentlist:any;
   this.getstudentlist();
   }
 
+
+
 changedate(changedate){
    this.studentvisible=true;
         this.dbserviceProvider.getAttendance(this.batchid)
-          .then(data => {
+          .subscribe(data => {
             let attendanc:any=data;
             for(var i=0;i< attendanc.length;i++)
             {
@@ -65,7 +69,7 @@ changedate(changedate){
             var m=date.getMonth()+1;
             var todaydate=date.getFullYear()+"-"+m+"-"+date.getDate();
           this.dbserviceProvider.getAttendance(this.batchid)
-          .then(data => {
+          .subscribe(data => {
             let attendance:any=data;
             for(var i=0;i< attendance.length;i++)
             {
@@ -85,25 +89,30 @@ changedate(changedate){
   }
 
   getstudentlist(){
-    this.Studentlist=[];
-    this.absentStudentlist=[];
-            this.dbserviceProvider.getStudents(this.batchid)
-          .then(data => {
-            let stu:any=[];
-            stu=data;
-            for (var i = 0; i < stu.length; ++i) {
-             var d=stu[i].company;
-             d= d.replace(" ",""); 
-             stu[i].letter=d[0];
-             stu[i].tracks="Navigation"
-            stu[i].color="ea1e63"       
-            stu[i].isChecked=true;     
-            this.Studentlist.push(stu[i]);
-            this.absentStudentlist.push(stu[i]);
-    }
+    this.Studentlist = [];
+    this.Studentlistitem=[];
+    this.dbserviceProvider.getstudentsfrombatch(this.batchid)
+      .subscribe(data => {
+        console.log(data);
+        let assignment: any = data.data;
+        console.log(data.data);
+         for (var i = 0; i < assignment.length; ++i) {
+            var d = assignment[i].student;
+         this.storage.set('student_name', assignment[i].student);
+         localStorage.staffId=assignment[i].student;
+         this.dbserviceProvider.getdetail(assignment[i].student)
+      .subscribe(data => {
+        console.log(data.data);
+       this.Studentlistitem[i] = data.data;
+ this.Studentlist.push(this.Studentlistitem[i]);
          }, error => {
-            console.log(JSON.stringify(error.json()));
-        }); 
+        console.log(JSON.stringify(error.json()));
+      });
+    }
+      console.log(this.Studentlist);
+       }, error => {
+        console.log(JSON.stringify(error.json()));
+      });
   }
 
   absentstudent(attendanceid){

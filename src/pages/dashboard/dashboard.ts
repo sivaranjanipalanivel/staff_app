@@ -24,21 +24,23 @@ export class DashboardPage {
   
   constructor(public loadingCtrl: LoadingController,public navCtrl: NavController, public navParams: NavParams,  public dbserviceProvider: DBserviceProvider) {
     this.staffimage = localStorage.staffimagepath;
-    this.name = localStorage.staffname;
+    this.name= localStorage.staffname;
     this.IStoday=true;
     this.presentLoadingDefault();
    
-    this.dbserviceProvider.getcourseschedule()
-      data => {
-      //   this.today_schedule = data;
+    this.dbserviceProvider.getcourseschedule(localStorage.inst_name)
+      .subscribe(data => {
+         var t1=new Date();
+         console.log(t1);
+        this.today_schedule = data.data;
         console.log(data)
-      //   if(this.today_schedule.length == 0)
-      //   {
-      //     this.IStoday=false;
-      //   }
-      // }, error => {
-      //   console.log(JSON.stringify(error.json()));
-     }
+        if(this.today_schedule.length == 0)
+        {
+          this.IStoday=false;
+        }
+      }, error => {
+        console.log(JSON.stringify(error.json()));
+     });
   
   }
 
@@ -48,11 +50,11 @@ export class DashboardPage {
       content: 'Loading Please Wait...'
     });
 
-    // loading.present();
+    loading.present();
 
-    // setTimeout(() => {
+    setTimeout(() => {
       loading.dismiss();
-    // }, 50);
+    }, 50);
   }
   goto_batchDetail(schdule_detail) {
     this.navCtrl.push(ScheduleDetailPage, { schdule_detail: schdule_detail });

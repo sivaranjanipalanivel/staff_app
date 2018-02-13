@@ -100,15 +100,15 @@
     </div>
     <ion-list *ngSwitchCase="'Today'" #scheduleList>
       <ion-item-group>
-        <ion-item-sliding style="border-bottom: 1px solid #ddd" *ngFor="let session of schedule" #slidingItem [attr.track]="session.tracks | lowercase | lettrcricle" (click)="goto_batchDetail(session)">
+        <ion-item-sliding style="border-bottom: 1px solid #ddd" *ngFor="let session of schedule" (click)="goto_batchDetail(session)">
           <button ion-item>
-            <h3>{{session.name}} 
-            <span style="float: right; background: #2196f3; color: white;    font-size: 12px; padding: 3px;" *ngIf="session.finished">Completed</span> 
-            <span style="float: right; background: #737272; color: white;     font-size: 12px;padding: 3px;" *ngIf="!session.finished">Pending</span>
+            <h3>{{session.student_group}} 
+            <span style="float: right; background: #2196f3; color: white;    font-size: 12px; padding: 3px;" *ngIf="session.schedule_date">Completed</span> 
+            <span style="float: right; background: #737272; color: white;     font-size: 12px;padding: 3px;" *ngIf="!session.schedule_date">Pending</span>
           </h3>
-            <p>Batch: {{session.Batch.name}} </p>
+            <p>Batch: {{session.title}} </p>
             <p>
-              {{session.start_time | date:'shortTime'}} &mdash; {{session.end_time | date:'shortTime'}}
+              {{session.from_time | date:'shortTime'}} &mdash; {{session.to_time | date:'shortTime'}}
             </p>
           </button>
         </ion-item-sliding>
@@ -117,15 +117,15 @@
     </ion-list>
     <ion-list *ngSwitchCase="'Tomorrow'" #scheduleList>
       <ion-item-group>
-        <ion-item-sliding style="border-bottom: 1px solid #ddd" *ngFor="let session of tomorrow_schedule" #slidingItem [attr.track]="session.tracks | lowercase | lettrcricle" (click)="goto_batchDetail(session)">
+        <ion-item-sliding style="border-bottom: 1px solid #ddd" *ngFor="let session of tomorrow_schedule" (click)="goto_batchDetail(session)">
           <button ion-item>
-            <h3>{{session.name}} 
-                        <span style="float: right; background: #2196f3; color: white;    font-size: 12px; padding: 3px;" *ngIf="session.finished">Completed</span> 
-                        <span style="float: right; background: #737272; color: white;     font-size: 12px;padding: 3px;" *ngIf="!session.finished">Pending</span>
+            <h3>{{session.student_group}} 
+                        <span style="float: right; background: #2196f3; color: white;    font-size: 12px; padding: 3px;" *ngIf="session.schedule_date">Completed</span> 
+                        <span style="float: right; background: #737272; color: white;     font-size: 12px;padding: 3px;" *ngIf="!session.schedule_date">Pending</span>
                       </h3>
-            <p>Batch: {{session.Batch.name}} </p>
+            <p>Batch: {{session.title}} </p>
             <p>
-              {{session.start_time | date:'shortTime'}} &mdash; {{session.end_time | date:'shortTime'}}
+              {{session.from_time | date:'shortTime'}} &mdash; {{session.to_time | date:'shortTime'}}
             </p>
           </button>
         </ion-item-sliding>
@@ -134,16 +134,16 @@
     </ion-list>
     <ion-list *ngSwitchCase="'week'" #scheduleList>
       <ion-item-group>
-        <ion-item-sliding style="border-bottom: 1px solid #ddd" *ngFor="let session of week_schedule" #slidingItem [attr.track]="session.tracks | lowercase | lettrcricle" (click)="goto_batchDetail(session)">
+        <ion-item-sliding style="border-bottom: 1px solid #ddd" *ngFor="let session of week_schedule" (click)="goto_batchDetail(session)">
           <button ion-item>
-            <h3>{{session.name}} 
-                                    <span style="float: right; background: #2196f3; color: white;    font-size: 12px; padding: 3px;" *ngIf="session.finished">Completed</span> 
-                                    <span style="float: right; background: #737272; color: white;     font-size: 12px;padding: 3px;" *ngIf="!session.finished">Pending</span>
+            <h3>{{session.student_group}} 
+                                    <span style="float: right; background: #2196f3; color: white;    font-size: 12px; padding: 3px;" *ngIf="session.schedule_date">Completed</span> 
+                                    <span style="float: right; background: #737272; color: white;     font-size: 12px;padding: 3px;" *ngIf="!session.schedule_date">Pending</span>
                                   </h3>
-            <p>Batch: {{session.Batch.name}} </p>
-            <p>Date : {{session.dateadded | date: 'longDate'}} </p>
+            <p>Batch: {{session.title}} </p>
+            <p>Date : {{session.schedule_date | date: 'longDate'}} </p>
             <p>
-              {{session.start_time | date:'shortTime'}} &mdash; {{session.end_time | date:'shortTime'}}
+              {{session.from_time | date:'shortTime'}} &mdash; {{session.to_time | date:'shortTime'}}
             </p>
           </button>
         </ion-item-sliding>

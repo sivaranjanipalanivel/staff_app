@@ -182,16 +182,16 @@
               <ion-item-group>
       <!-- <h3 style="    color: #303F9F; width: 100%; font-size: 17px; font-weight: 400; margin: 0;">{{term.term_name}}</h3> -->
 
-                <ion-item-divider color="light">{{term.term_name}}
+                <ion-item-divider color="light">{{term.academic_term}}
                 </ion-item-divider>
-                <ion-list *ngFor="let fee of term.fees" (click)="GopaymentDetail(fee)" style="border: 1px solid #ddd;
+                <ion-list *ngFor="let fee of term" (click)="GopaymentDetail(fee)" style="border: 1px solid #ddd;
     border-left: 2px solid #303f9f;margin: -1px 0 5px;">
                 <!-- <h3>{{fee.term_type}}</h3> | groupBy:{{fee.term_type}}"style="border: 1px solid #303f9f;
     border-top: none;margin-bottom: 0px;" style="    border-left: 2px solid #303f9f;"-->
                   <ion-item>
                     <div ion-row>
                       <div ion-col>
-                        <h2 style="text-transform: capitalize; "> {{fee.term_id}}</h2>
+                        <h2 style="text-transform: capitalize; "> {{fee.academic_term}}</h2>
                       </div>
                       <div ion-col>
                         <button style="float: right;background: #dcdcdc;">Due Date: {{fee.due_date | date}}</button>
@@ -199,17 +199,17 @@
                     </div>
                     <div ion-row>
                       <div ion-col>
-                        <p> Amount: <span style="color: black;"> ₹ {{fee.amount}}</span></p>
+                        <p> Amount: <span style="color: black;"> ₹ {{fee.grand_total}}</span></p>
                       </div>
-                      <div ion-col *ngIf="fee.invoice">
-                        <button *ngIf="fee.invoice.status == 2" ion-button color="secondary" outline style="float: right  ;  height: 20px; font-size: 12px;">Paid</button>
-                        <button *ngIf="fee.invoice.status == 1" ion-button color="danger" outline style="float: right  ;  height: 20px; font-size: 12px;">Unpaid</button>
-                        <button *ngIf="fee.invoice.status == 4" ion-button color="danger" outline style="float: right  ;  height: 20px; font-size: 12px;">Overdue</button>
-                        <button *ngIf="fee.invoice.status == 3" ion-button color="danger" outline style="float: right  ;  height: 20px; font-size: 12px;">Partially Paid</button>
-                        <button *ngIf="fee.invoice.status == 5" ion-button color="danger" outline style="float: right  ;  height: 20px; font-size: 12px;">Cancelled</button>
+                      <div ion-col *ngIf="fee.name">
+                        <button *ngIf="fee.outstanding_amount == 0.0" ion-button color="secondary" outline style="float: right  ;  height: 20px; font-size: 12px;">Paid</button>
+                        <button *ngIf="!fee.outstanding_amount == 0.0" ion-button color="danger" outline style="float: right  ;  height: 20px; font-size: 12px;">Unpaid</button>
+                      <!--   <button *ngIf="fee.due_date < " ion-button color="danger" outline style="float: right  ;  height: 20px; font-size: 12px;">Overdue</button> -->
+                       <!--  <button *ngIf="fee.docstatus == 3" ion-button color="danger" outline style="float: right  ;  height: 20px; font-size: 12px;">Partially Paid</button>
+                        <button *ngIf="fee.docstatus == 5" ion-button color="danger" outline style="float: right  ;  height: 20px; font-size: 12px;">Cancelled</button> -->
                       </div>
-                      <div ion-col *ngIf="!fee.invoice">
-                        <button *ngIf="fee.status == 0" ion-button color="danger" outline style="float: right  ;  height: 20px; font-size: 12px;">Collect Fee</button>
+                      <div ion-col *ngIf="!fee.outstanding_amount == 0.0">
+                        <button *ngIf="fee.docstatus == 1" ion-button color="danger" outline style="float: right  ;  height: 20px; font-size: 12px;">Collect Fee</button>
                       </div>
                     </div>
                   </ion-item>

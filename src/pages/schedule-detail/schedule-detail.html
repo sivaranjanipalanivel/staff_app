@@ -8,27 +8,27 @@
     <ion-item-group>
       <ion-item-sliding style="border-bottom: 1px solid #ddd" #slidingItem [attr.track]="session.tracks | lowercase | lettrcricle">
         <button ion-item>
-          <h3 style="margin-top: 0.7rem;">{{session.name}} 
-          <span style="float: right; background: #737272; color: white;     font-size: 12px;padding: 5px;" *ngIf="!session.finished">Pending</span>
-          <span style="float: right; background: #2196f3; color: white;    font-size: 12px; padding: 5px;" *ngIf="session.finished">Completed</span> 
+          <h3 style="margin-top: 0.7rem;">{{session.title}} 
+          <span style="float: right; background: #737272; color: white;     font-size: 12px;padding: 5px;" *ngIf="session.schedule_date">Pending</span>
+         <!--  <span style="float: right; background: #2196f3; color: white;    font-size: 12px; padding: 5px;" *ngIf="session.schedule_date">Completed</span>  -->
           
           </h3>
-          <p>Batch: {{session.Batch.name}} </p>
+          <p>Batch: {{session.student_group}} </p>
           <p>
-            {{session.start_time | date:'shortTime'}} &mdash; {{session.end_time | date:'shortTime'}}
+            {{session.from_time | date:'shortTime'}} &mdash; {{session.to_time | date:'shortTime'}}
           </p>
         </button>
       </ion-item-sliding>
     </ion-item-group>
   </ion-list>
-  <h2 *ngIf="session.description" style="    text-transform: uppercase;      font-size: 14px;">Description</h2>
-  <ion-list *ngIf="session.description">
+  <h2 style="    text-transform: uppercase;      font-size: 14px;">Description</h2>
+  <ion-list >
     <ion-item>
-      <p *ngIf="session.description" style="white-space: normal; text-overflow: initial; overflow: auto;" [innerHTML]="session.description">
-      </p>
-      <p *ngIf="!session.description"> No Description found</p>
+     <!--  <p *ngIf="session.description" style="white-space: normal; text-overflow: initial; overflow: auto;" [innerHTML]="session.description">
+      </p> -->
+      <p> No Description found</p>
     </ion-item>
   </ion-list>
   <!-- <button ion-button color="default" round outline (click)="change_statusModal(session)">Change Status</button> -->
-  <button ion-button style="border-color: #6f4fca; color: #6f4fca;" color="default" round outline (click)="changestatus(session)">Change Status</button>
+  <button ion-button style="border-color: #6f4fca; color: #6f4fca;" color="default" round outline>Change Status</button>
 </ion-content>

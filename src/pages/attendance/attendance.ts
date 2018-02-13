@@ -19,10 +19,10 @@ export class AttendancePage {
   constructor(public dbserviceProvider: DBserviceProvider,public loadingCtrl: LoadingController,public navCtrl: NavController, public navParams: NavParams) {
     this.Batcheslist();
     this.presentLoadingDefault();
-    this.name = localStorage.staffname;
+   this.name= localStorage.staffname
     this.staffid = localStorage.staffId;
     this.staffemail = localStorage.staffemail;
-    this.staffimage = localStorage.staffimagepath;
+     this.staffimage = localStorage.staffimagepath;
     this.currentdate=new Date();
   }
 
@@ -39,28 +39,21 @@ export class AttendancePage {
   }, 50);
 }
 
+
 Batcheslist(){
-    this.dbserviceProvider.getstaffbatches(localStorage.staffId)
-          .then(data => {
-          this.Batchlist=data;
-          console.log(data)
-          if(this.Batchlist.length ==0)
+    this.dbserviceProvider.getstaffbatches(localStorage.inst_name)
+            .subscribe(data => {
+            console.log(data);
+            console.log(data.data);
+            this.Batcheslist=data.data;
+            if(this.Batcheslist.length ==0)
             {
-            this.Isbatches=true;
+            this.Isbatches=true
           }
-            // let batch:any=[];
-            // batch=data;
-    //     for (var i = 0; i < batch.length; ++i) {
-    //         var d=batch[i].project.name;
-    //         d= d.replace(" ",""); 
-    //         batch[i].letter=d[0];
-    //         batch[i].color="f54337"
-    //       this.Batchlist.push(batch[i]);
-    // }
-  },
-  error =>{
-          console.log(JSON.stringify(error.json()));
-  })
+           
+         }, error => {
+            console.log(JSON.stringify(error.json()));
+        }); 
 }
   ionViewDidLoad() {
     

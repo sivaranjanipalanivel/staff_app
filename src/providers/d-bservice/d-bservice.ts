@@ -114,9 +114,9 @@ options;
         let endpoint = 'Instructor?filters=[["employee","=","'+name+'"]]&fields=["employee","instructor_name"]';
     return this.get(this.baseResource+endpoint);
   }
-  getcourseschedule(): any {
+  getcourseschedule(name): any {
    
-    let endpoint = 'Course Schedule';
+    let endpoint = 'Course Schedule?filters=[["instructor","=","'+name+'"]]&fields=["schedule_date","title","from_time","to_time","room","student_group","course"]';
     return this.get(this.baseResource+endpoint);
   }
   getstudentsfrombatch(name): any {
@@ -127,6 +127,11 @@ options;
   getdetail(name): any {
    
     let endpoint = 'Student?filters=[["name","=","'+name+'"]]&fields=["first_name","last_name","middle_name","title","gender","student_mobile_number","student_email_id","date_of_birth","name"]';
+    return this.get(this.baseResource+endpoint);
+  }
+
+  getAttendance(name) {
+     let endpoint = 'Student Attendance?filters=[["student_group","=","'+name+'"]]&fields=fields=["student","student_name","course_schedule","date","status"]';
     return this.get(this.baseResource+endpoint);
   }
  // postdiscussions(data): any{
@@ -151,8 +156,48 @@ options;
     return this.get(this.baseResource+endpoint);
   }
 
-getadminschedule(id) {
-   let endpoint = 'Course Schedule';
+getadminschedule(name) {
+   let endpoint = 'Course Schedule?filters=[["instructor","=","'+name+'"]]&fields=["schedule_date","title","from_time","to_time","room","student_group","course"]';
+    return this.get(this.baseResource+endpoint);
+  }
+
+   getinvoicelist(id) {
+    let endpoint = 'Fees?filters=[["student","=","'+id+'"]]&fields=["docstatus","program","academic_term","name","grand_total","outstanding_amount","grand_total_in_words","fee_structure","due_date","student"]';
+    return this.get(this.baseResource+endpoint);
+  }
+
+  getacademicdetails(name) {
+    let endpoint = 'Program Enrollment?filters=[["student","=","'+name+'"]]&fields=["program","academic_year","academic_term","student_batch_name","enrollment_date"]';
+    return this.get(this.baseResource+endpoint);
+  }
+
+getcoursedetails(name) {
+    let endpoint = 'Program Enrollment Course?filters=[["parent","=","'+name+'"]]&fields=["course","course_name"]';
+    return this.get(this.baseResource+endpoint);
+  }
+
+
+  getcontact(name) {
+    let endpoint = 'Student?filters=[["name","=","'+name+'"]]&fields=["name","address_line_1","address_line_2","state","city","pincode"]';
+    return this.get(this.baseResource+endpoint);
+  }
+
+  getgaurdian(name){
+    let endpoint = 'Student Guardian?filters=[["parent","=","'+name+'"]]&fields=["guardian","relation"]';
+    return this.get(this.baseResource+endpoint);
+  }
+
+  getgaurdiandetails(name){
+    let endpoint = 'Guardian?filters=[["parent","=","'+name+'"]]&fields=["guardian_name","mobile_number","email_address"]';
+    return this.get(this.baseResource+endpoint);
+  }
+  getadminweekschedule(name) {
+  let endpoint = 'Course Schedule?filters=[["instructor","=","'+name+'"]]&fields=["schedule_date","title","from_time","to_time","room","student_group","course"]';
+    return this.get(this.baseResource+endpoint);
+  }
+
+getadmintomorrowschedule(name) {
+   let endpoint = 'Course Schedule?filters=[["instructor","=","'+name+'"]]&fields=["schedule_date","title","from_time","to_time","room","student_group","course"]';
     return this.get(this.baseResource+endpoint);
   }
   // getStudents(data): any{
@@ -231,7 +276,7 @@ getadminschedule(id) {
     });
   }
 
-  getAttendance(id) {
+  sgetAttendance(id) {
     return new Promise(resolve => {
       this.http.get(globalUrl + 'tblattendances?filter[where][batch_id]=' + id)
         .map(res => res.json())
@@ -436,32 +481,7 @@ getadminschedule(id) {
     });
   }
 
- getacademicdetails(name) {
-    let endpoint = 'Program Enrollment?filters=[["student","=","'+name+'"]]&fields=["program","academic_year","academic_term","student_batch_name","enrollment_date"]';
-    return this.get(this.baseResource+endpoint);
-  }
-
-getcoursedetails(name) {
-    let endpoint = 'Program Enrollment Course?filters=[["parent","=","'+name+'"]]&fields=["course","course_name"]';
-    return this.get(this.baseResource+endpoint);
-  }
-
-
-  getcontact(name) {
-    let endpoint = 'Student?filters=[["name","=","'+name+'"]]&fields=["name","address_line_1","address_line_2","state","city","pincode"]';
-    return this.get(this.baseResource+endpoint);
-  }
-
-  getgaurdian(name){
-    let endpoint = 'Student Guardian?filters=[["parent","=","'+name+'"]]&fields=["guardian","relation"]';
-    return this.get(this.baseResource+endpoint);
-  }
-
-  getgaurdiandetails(name){
-    let endpoint = 'Guardian?filters=[["parent","=","'+name+'"]]&fields=["guardian_name","mobile_number","email_address"]';
-    return this.get(this.baseResource+endpoint);
-  }
-
+ 
   getcourse(id) {
     return new Promise(resolve => {
       this.http.get(globalUrl + 'tblinvoiceitemslists?filter[where][id]=' + id)
@@ -504,10 +524,7 @@ getcoursedetails(name) {
 
 
 
-  getinvoicelist(id) {
-    let endpoint = 'Student?filters=[["student","=","'+id+'"]]';
-    return this.get(this.baseResource+endpoint);
-  }
+ 
 
   // getstaffbatches(id) {
   //   return new Promise(resolve => {
@@ -714,7 +731,7 @@ getcoursedetails(name) {
         });
     });
   }
-  getadmintomorrowschedule(id) {
+  sgetadmintomorrowschedule(id) {
     return new Promise(resolve => {
       this.http.get(globalUrl + 'tblstaffschedules?filter[include]=Batch&filter[where][staff_id]=' + id+'&filter[where][dateadded]='+tomorrow)
         .map(res => res.json())
@@ -723,7 +740,7 @@ getcoursedetails(name) {
         });
     });
   }
-  getadminweekschedule(id) {
+  agetadminweekschedule(id) {
    var curr = new Date(); // get current date
    var curr1 = new Date(); // get current date
    var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week

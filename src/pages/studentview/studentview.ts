@@ -144,6 +144,7 @@ export class StudentviewPage {
       this.presentLoadingDefault();
     this.DBservice.getinvoicelist(this.studentdetail.name)
       .subscribe(data => {
+        var t2=new Date();
         this.invoice = data.data;
         console.log(this.invoice);
         this.invoi_flag =true;

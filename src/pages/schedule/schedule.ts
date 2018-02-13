@@ -85,22 +85,23 @@ export class SchedulePage {
     this.schedule =[];
     this.notes=[];
     
-    this.dbserviceProvider.getadminschedule(localStorage.staffId)
+    this.dbserviceProvider.getadminschedule(localStorage.inst_name)
       .subscribe(data => {
         let sched: any = data;
+        console.log(sched);
         for (var i = 0; i < sched.length; ++i) {
-          var d = sched[i].name;
+          var d = sched[i].title;
           d = d.replace(" ", "");
           sched[i].letter = d[0];
           sched[i].tracks = "Food"
           sched[i].color = "f54337"
-          var dt = new Date(sched[i].dateadded);
+          var dt = new Date(sched[i].schedule_date);
           var dt1 = dt.getMonth()
-          sched[i].dateaddedd = dt.getDate() + "/" + dt1 + "/" + dt.getFullYear();
+          sched[i].schedule_date = dt.getDate() + "/" + dt1 + "/" + dt.getFullYear();
           var dt2 = new Date();
           var dt3 = dt2.getMonth()
           var dt4 = dt2.getDate() + "/" + dt3 + "/" + dt2.getFullYear();
-          if (sched[i].dateaddedd == dt4) {
+          if (sched[i].schedule_date == dt4) {
             this.schedule.push(sched[i]);
           }
          
@@ -120,8 +121,8 @@ export class SchedulePage {
      if(!this.is_week){
        this.is_week=true;
     this.presentLoadingDefault();
-    this.dbserviceProvider.getadminweekschedule(localStorage.staffId)
-      .then(data => {
+    this.dbserviceProvider.getadminweekschedule(localStorage.inst_name)
+      .subscribe(data => {
         this.week_schedule = data;
         console.log(data)
         if (this.week_schedule.length == 0)
@@ -136,8 +137,8 @@ export class SchedulePage {
     {
      this.is_torrow=true;
      this.presentLoadingDefault();
-     this.dbserviceProvider.getadmintomorrowschedule(localStorage.staffId)
-      .then(data => {
+     this.dbserviceProvider.getadmintomorrowschedule(localStorage.inst_name)
+      .subscribe(data => {
         this.tomorrow_schedule=data;
         if(this.tomorrow_schedule.length == 0)
           this.no_sch_tom=true;
